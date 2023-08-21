@@ -27,6 +27,9 @@ class Lock
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $last_contact = null;
 
+    #[ORM\OneToOne(mappedBy: 'lock', cascade: ['persist', 'remove'])]
+    private ?Bike $bike = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,28 @@ class Lock
     public function setLastContact(?\DateTimeInterface $last_contact): static
     {
         $this->last_contact = $last_contact;
+
+        return $this;
+    }
+
+    public function getBike(): ?Bike
+    {
+        return $this->bike;
+    }
+
+    public function setBike(?Bike $bike): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($bike === null && $this->bike !== null) {
+            $this->bike->setLock(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($bike !== null && $bike->getLock() !== $this) {
+            $bike->setLock($this);
+        }
+
+        $this->bike = $bike;
 
         return $this;
     }
