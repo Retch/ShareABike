@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LockRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LockRepository::class)]
@@ -19,6 +20,9 @@ class Lock
     #[ORM\ManyToOne(inversedBy: 'locks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?locktype $lock_type = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $battery_percentage = null;
 
     public function getId(): ?int
     {
@@ -45,6 +49,18 @@ class Lock
     public function setLockType(?locktype $lock_type): static
     {
         $this->lock_type = $lock_type;
+
+        return $this;
+    }
+
+    public function getBatteryPercentage(): ?int
+    {
+        return $this->battery_percentage;
+    }
+
+    public function setBatteryPercentage(?int $battery_percentage): static
+    {
+        $this->battery_percentage = $battery_percentage;
 
         return $this;
     }

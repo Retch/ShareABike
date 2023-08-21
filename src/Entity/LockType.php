@@ -21,6 +21,12 @@ class LockType
     #[ORM\OneToMany(mappedBy: 'lock_type', targetEntity: Lock::class, orphanRemoval: true)]
     private Collection $locks;
 
+    #[ORM\Column]
+    private ?float $battery_voltage_min = null;
+
+    #[ORM\Column]
+    private ?float $battery_voltage_max = null;
+
     public function __construct()
     {
         $this->locks = new ArrayCollection();
@@ -69,6 +75,30 @@ class LockType
                 $lock->setLockType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBatteryVoltageMin(): ?float
+    {
+        return $this->battery_voltage_min;
+    }
+
+    public function setBatteryVoltageMin(float $battery_voltage_min): static
+    {
+        $this->battery_voltage_min = $battery_voltage_min;
+
+        return $this;
+    }
+
+    public function getBatteryVoltageMax(): ?float
+    {
+        return $this->battery_voltage_max;
+    }
+
+    public function setBatteryVoltageMax(float $battery_voltage_max): static
+    {
+        $this->battery_voltage_max = $battery_voltage_max;
 
         return $this;
     }
