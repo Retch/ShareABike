@@ -24,6 +24,9 @@ class Lock
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $battery_percentage = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $last_contact = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class Lock
     public function setBatteryPercentage(?int $battery_percentage): static
     {
         $this->battery_percentage = $battery_percentage;
+
+        return $this;
+    }
+
+    public function getLastContact(): ?\DateTimeInterface
+    {
+        return $this->last_contact;
+    }
+
+    public function setLastContact(?\DateTimeInterface $last_contact): static
+    {
+        $this->last_contact = $last_contact;
 
         return $this;
     }
