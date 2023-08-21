@@ -30,6 +30,9 @@ class Lock
     #[ORM\OneToOne(mappedBy: 'lock', cascade: ['persist', 'remove'])]
     private ?Bike $bike = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_locked = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -101,6 +104,18 @@ class Lock
         }
 
         $this->bike = $bike;
+
+        return $this;
+    }
+
+    public function isLocked(): ?bool
+    {
+        return $this->is_locked;
+    }
+
+    public function setIsLocked(?bool $is_locked): static
+    {
+        $this->is_locked = $is_locked;
 
         return $this;
     }
