@@ -57,7 +57,7 @@ class Lock
     #[ORM\Column(length: 1, nullable: true)]
     private ?string $longitude_hemisphere = null;
 
-    #[ORM\Column(length: 55, nullable: true)]
+    #[ORM\Column(length: 31, nullable: true)]
     private ?string $last_event = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
