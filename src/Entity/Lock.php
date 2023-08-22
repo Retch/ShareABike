@@ -57,6 +57,15 @@ class Lock
     #[ORM\Column(length: 1, nullable: true)]
     private ?string $longitude_hemisphere = null;
 
+    #[ORM\Column(length: 55, nullable: true)]
+    private ?string $last_event = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $last_event_time = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $qr_code_content = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -236,6 +245,42 @@ class Lock
     public function setLongitudeHemisphere(?string $longitude_hemisphere): static
     {
         $this->longitude_hemisphere = $longitude_hemisphere;
+
+        return $this;
+    }
+
+    public function getLastEvent(): ?string
+    {
+        return $this->last_event;
+    }
+
+    public function setLastEvent(?string $last_event): static
+    {
+        $this->last_event = $last_event;
+
+        return $this;
+    }
+
+    public function getLastEventTime(): ?\DateTimeInterface
+    {
+        return $this->last_event_time;
+    }
+
+    public function setLastEventTime(?\DateTimeInterface $last_event_time): static
+    {
+        $this->last_event_time = $last_event_time;
+
+        return $this;
+    }
+
+    public function getQrCodeContent(): ?string
+    {
+        return $this->qr_code_content;
+    }
+
+    public function setQrCodeContent(?string $qr_code_content): static
+    {
+        $this->qr_code_content = $qr_code_content;
 
         return $this;
     }
