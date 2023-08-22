@@ -45,6 +45,18 @@ class Lock
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $satellites = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $latitude_degrees = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $longitude_degrees = null;
+
+    #[ORM\Column(length: 1, nullable: true)]
+    private ?string $latitude_hemisphere = null;
+
+    #[ORM\Column(length: 1, nullable: true)]
+    private ?string $longitude_hemisphere = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -176,6 +188,54 @@ class Lock
     public function setSatellites(?int $satellites): static
     {
         $this->satellites = $satellites;
+
+        return $this;
+    }
+
+    public function getLatitudeDegrees(): ?float
+    {
+        return $this->latitude_degrees;
+    }
+
+    public function setLatitudeDegrees(?float $latitude_degrees): static
+    {
+        $this->latitude_degrees = $latitude_degrees;
+
+        return $this;
+    }
+
+    public function getLongitudeDegrees(): ?float
+    {
+        return $this->longitude_degrees;
+    }
+
+    public function setLongitudeDegrees(?float $longitude_degrees): static
+    {
+        $this->longitude_degrees = $longitude_degrees;
+
+        return $this;
+    }
+
+    public function getLatitudeHemisphere(): ?string
+    {
+        return $this->latitude_hemisphere;
+    }
+
+    public function setLatitudeHemisphere(?string $latitude_hemisphere): static
+    {
+        $this->latitude_hemisphere = $latitude_hemisphere;
+
+        return $this;
+    }
+
+    public function getLongitudeHemisphere(): ?string
+    {
+        return $this->longitude_hemisphere;
+    }
+
+    public function setLongitudeHemisphere(?string $longitude_hemisphere): static
+    {
+        $this->longitude_hemisphere = $longitude_hemisphere;
 
         return $this;
     }
