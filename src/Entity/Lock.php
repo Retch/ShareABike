@@ -33,6 +33,9 @@ class Lock
     #[ORM\Column(nullable: true)]
     private ?bool $is_locked = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_connected_to_adapter = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +119,18 @@ class Lock
     public function setIsLocked(?bool $is_locked): static
     {
         $this->is_locked = $is_locked;
+
+        return $this;
+    }
+
+    public function isConnectedToAdapter(): ?bool
+    {
+        return $this->is_connected_to_adapter;
+    }
+
+    public function setIsConnectedToAdapter(?bool $is_connected_to_adapter): static
+    {
+        $this->is_connected_to_adapter = $is_connected_to_adapter;
 
         return $this;
     }
