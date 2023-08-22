@@ -75,6 +75,15 @@ class Lock
     #[ORM\Column(length: 31, nullable: true)]
     private ?string $info_hw_revision = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $last_position_hdop = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $last_position_altitude_meters = null;
+
+    #[ORM\Column(length: 17, nullable: true)]
+    private ?string $bluetooth_mac = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -326,6 +335,42 @@ class Lock
     public function setInfoHwRevision(?string $info_hw_revision): static
     {
         $this->info_hw_revision = $info_hw_revision;
+
+        return $this;
+    }
+
+    public function getLastPositionHdop(): ?float
+    {
+        return $this->last_position_hdop;
+    }
+
+    public function setLastPositionHdop(?float $last_position_hdop): static
+    {
+        $this->last_position_hdop = $last_position_hdop;
+
+        return $this;
+    }
+
+    public function getLastPositionAltitudeMeters(): ?float
+    {
+        return $this->last_position_altitude_meters;
+    }
+
+    public function setLastPositionAltitudeMeters(?float $last_position_altitude_meters): static
+    {
+        $this->last_position_altitude_meters = $last_position_altitude_meters;
+
+        return $this;
+    }
+
+    public function getBluetoothMac(): ?string
+    {
+        return $this->bluetooth_mac;
+    }
+
+    public function setBluetoothMac(?string $bluetooth_mac): static
+    {
+        $this->bluetooth_mac = $bluetooth_mac;
 
         return $this;
     }
