@@ -66,6 +66,15 @@ class Lock
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $qr_code_content = null;
 
+    #[ORM\Column(length: 31, nullable: true)]
+    private ?string $info_sw_version = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $info_sw_date = null;
+
+    #[ORM\Column(length: 31, nullable: true)]
+    private ?string $info_hw_revision = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -281,6 +290,42 @@ class Lock
     public function setQrCodeContent(?string $qr_code_content): static
     {
         $this->qr_code_content = $qr_code_content;
+
+        return $this;
+    }
+
+    public function getInfoSwVersion(): ?string
+    {
+        return $this->info_sw_version;
+    }
+
+    public function setInfoSwVersion(?string $info_sw_version): static
+    {
+        $this->info_sw_version = $info_sw_version;
+
+        return $this;
+    }
+
+    public function getInfoSwDate(): ?\DateTimeInterface
+    {
+        return $this->info_sw_date;
+    }
+
+    public function setInfoSwDate(?\DateTimeInterface $info_sw_date): static
+    {
+        $this->info_sw_date = $info_sw_date;
+
+        return $this;
+    }
+
+    public function getInfoHwRevision(): ?string
+    {
+        return $this->info_hw_revision;
+    }
+
+    public function setInfoHwRevision(?string $info_hw_revision): static
+    {
+        $this->info_hw_revision = $info_hw_revision;
 
         return $this;
     }
