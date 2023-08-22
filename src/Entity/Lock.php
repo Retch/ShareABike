@@ -36,6 +36,15 @@ class Lock
     #[ORM\Column(nullable: true)]
     private ?bool $is_connected_to_adapter = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $last_position_time = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $cellular_signal_quality_percentage = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $satellites = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -131,6 +140,42 @@ class Lock
     public function setIsConnectedToAdapter(?bool $is_connected_to_adapter): static
     {
         $this->is_connected_to_adapter = $is_connected_to_adapter;
+
+        return $this;
+    }
+
+    public function getLastPositionTime(): ?\DateTimeInterface
+    {
+        return $this->last_position_time;
+    }
+
+    public function setLastPositionTime(?\DateTimeInterface $last_position_time): static
+    {
+        $this->last_position_time = $last_position_time;
+
+        return $this;
+    }
+
+    public function getCellularSignalQualityPercentage(): ?int
+    {
+        return $this->cellular_signal_quality_percentage;
+    }
+
+    public function setCellularSignalQualityPercentage(?int $cellular_signal_quality_percentage): static
+    {
+        $this->cellular_signal_quality_percentage = $cellular_signal_quality_percentage;
+
+        return $this;
+    }
+
+    public function getSatellites(): ?int
+    {
+        return $this->satellites;
+    }
+
+    public function setSatellites(?int $satellites): static
+    {
+        $this->satellites = $satellites;
 
         return $this;
     }

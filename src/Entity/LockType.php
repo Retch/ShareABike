@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LockTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LockTypeRepository::class)]
@@ -26,6 +27,12 @@ class LockType
 
     #[ORM\Column]
     private ?float $battery_voltage_max = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $cellular_signal_quality_min = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $cellular_signal_quality_max = null;
 
     public function __construct()
     {
@@ -99,6 +106,30 @@ class LockType
     public function setBatteryVoltageMax(float $battery_voltage_max): static
     {
         $this->battery_voltage_max = $battery_voltage_max;
+
+        return $this;
+    }
+
+    public function getCellularSignalQualityMin(): ?int
+    {
+        return $this->cellular_signal_quality_min;
+    }
+
+    public function setCellularSignalQualityMin(?int $cellular_signal_quality_min): static
+    {
+        $this->cellular_signal_quality_min = $cellular_signal_quality_min;
+
+        return $this;
+    }
+
+    public function getCellularSignalQualityMax(): ?int
+    {
+        return $this->cellular_signal_quality_max;
+    }
+
+    public function setCellularSignalQualityMax(?int $cellular_signal_quality_max): static
+    {
+        $this->cellular_signal_quality_max = $cellular_signal_quality_max;
 
         return $this;
     }
