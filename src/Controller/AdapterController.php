@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Lock;
+
 
 class AdapterController extends AbstractController
 {
@@ -29,6 +31,64 @@ class AdapterController extends AbstractController
             $maxVoltage = $lockType->getBatteryVoltageMax();
             $lock->setBatteryPercentage(($json['voltage'] - $minVoltage) / ($maxVoltage - $minVoltage) * 100);
         }
+
+        if (isset($json['isLocked'])) {
+            $lock->setIsLocked($json['isLocked']);
+        }
+
+        if (isset($json['csq'])) {
+            $lockType = $lock->getLockType();
+            $minCsq = $lockType->getCellularSignalQualityMin();
+            $maxCsq = $lockType->getCellularSignalQualityMax();
+            $lock->setCellularSignalQualityPercentage(($json['csq'] - $minCsq) / ($maxCsq - $minCsq) * 100);
+        }
+
+        if (isset($json['packetType'])) {
+            $lock->setLastPackedDescription($json['packetType']);
+        }
+
+        if (isset($json['noGps'])) {
+            $lock->setNoGps($json['noGps']);
+        }
+
+        if (isset($json['satellites'])) {
+            $lock->setSatellites($json['satellites']);
+            if ($json['satellites'] === 0) {
+                $lock->setNoGps(true);
+            }
+            else {
+                $lock->setNoGps(false);
+            }
+        }
+
+        if (isset($json['hdop']) && isset($json['altitude']) && isset($json['longitudeHemisphere']) && isset($json['latitudeHemisphere']) && isset($json['longitudeDegrees']) && isset($json['latitudeDegrees'])) {
+            $lock->setLastPositionHdop ($json['hdop']);
+            $lock->setLastPositionAltitudeMeters($json['altitude']);
+            $lock->setLongitudeHemisphere($json['longitudeHemisphere']);
+            $lock->setLatitudeHemisphere($json['latitudeHemisphere']);
+            $lock->setLongitudeDegrees($json['longitudeDegrees']);
+            $lock->setLatitudeDegrees($json['latitudeDegrees']);
+            $lock->setNoGps(false);
+        }
+
+        if (isset($json['btMac'])) {
+            $lock->setBluetoothMac($json['btMac']);
+        }
+
+        if (isset($json['lockSwVersion']) && isset($json['lockHwRevision']) && isset($json['lockSwDate']))
+        {
+            $lock->setInfoSwVersion($json['lockSwVersion']);
+            $lock->setInfoHwRevision($json['lockHwRevision']);
+            $lock->setInfoSwDate($json['lockSwDate']);
+        }
+
+        if (isset($json['event'])) {
+            $lock->setLastEvent($json['event']);
+        }
+        
+
+        $entityManager->persist($lock);
+        $entityManager->flush();
 
         return new Response('', 200);
     }
