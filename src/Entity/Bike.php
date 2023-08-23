@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BikeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Lock;
 
 #[ORM\Entity(repositoryClass: BikeRepository::class)]
 class Bike

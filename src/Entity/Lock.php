@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LockRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\LockType;
 
 #[ORM\Entity(repositoryClass: LockRepository::class)]
 class Lock
@@ -83,6 +84,12 @@ class Lock
 
     #[ORM\Column(length: 17, nullable: true)]
     private ?string $bluetooth_mac = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $last_packed_description = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $no_gps = null;
 
     public function getId(): ?int
     {
@@ -371,6 +378,30 @@ class Lock
     public function setBluetoothMac(?string $bluetooth_mac): static
     {
         $this->bluetooth_mac = $bluetooth_mac;
+
+        return $this;
+    }
+
+    public function getLastPackedDescription(): ?string
+    {
+        return $this->last_packed_description;
+    }
+
+    public function setLastPackedDescription(?string $last_packed_description): static
+    {
+        $this->last_packed_description = $last_packed_description;
+
+        return $this;
+    }
+
+    public function isNoGps(): ?bool
+    {
+        return $this->no_gps;
+    }
+
+    public function setNoGps(?bool $no_gps): static
+    {
+        $this->no_gps = $no_gps;
 
         return $this;
     }
