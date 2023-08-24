@@ -2,8 +2,7 @@ version: '3.4'
 
 services:
   php-fpm:
-    build:
-      context: .
+    image: ghcr.io/retch/shareabike-backend:latest
     environment:
       APP_ENV: dev
       # Choose a unique app secret
