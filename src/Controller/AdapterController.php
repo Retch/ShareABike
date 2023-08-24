@@ -29,7 +29,7 @@ class AdapterController extends AbstractController
 
         if (isset($json['packetType'])) {
             $lock->setLastPackedDescription($json['packetType']);
-            $logger->info('Received package from adapter with type: ' . $json['packetType']);
+            $logger->info('Received package from adapter with type ' . $json['packetType'] . ' from lock with device id ' . $device_id);
         }
 
         if (isset($json['voltage'])) {
