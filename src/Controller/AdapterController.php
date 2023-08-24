@@ -76,6 +76,7 @@ class AdapterController extends AbstractController
             $lock->setLongitudeDegrees($json['longitudeDegrees']);
             $lock->setLatitudeDegrees($json['latitudeDegrees']);
             $lock->setNoGps(false);
+            $lock->setLastPositionTime(new \DateTimeImmutable());
         }
 
         if (isset($json['btMac'])) {
