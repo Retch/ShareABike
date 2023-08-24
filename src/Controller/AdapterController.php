@@ -29,7 +29,9 @@ class AdapterController extends AbstractController
             $lockType = $lock->getLockType();
             $minVoltage = $lockType->getBatteryVoltageMin();
             $maxVoltage = $lockType->getBatteryVoltageMax();
-            $lock->setBatteryPercentage(($json['voltage'] - $minVoltage) / ($maxVoltage - $minVoltage) * 100);
+            if ($minVoltage != null && $maxVoltage != null) {
+                $lock->setBatteryPercentage(round(($json['voltage'] - $minVoltage) / ($maxVoltage - $minVoltage) * 100));
+            }
         }
 
         if (isset($json['isLocked'])) {
@@ -40,7 +42,9 @@ class AdapterController extends AbstractController
             $lockType = $lock->getLockType();
             $minCsq = $lockType->getCellularSignalQualityMin();
             $maxCsq = $lockType->getCellularSignalQualityMax();
-            $lock->setCellularSignalQualityPercentage(($json['csq'] - $minCsq) / ($maxCsq - $minCsq) * 100);
+            if ($minCsq != null && $maxCsq != null) {
+                $lock->setCellularSignalQualityPercentage(round(($json['csq'] - $minCsq) / ($maxCsq - $minCsq) * 100));
+            }
         }
 
         if (isset($json['packetType'])) {
