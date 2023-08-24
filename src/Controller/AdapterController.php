@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,10 +14,11 @@ use App\Entity\Lock;
 class AdapterController extends AbstractController
 {
     #[Route('/adapter/{device_id}/updatestatus', name: 'app_adapter_update_status', methods: ['POST'])]
-    public function updateLocation(EntityManagerInterface $entityManager, Request $request, string $device_id): Response
+    public function updateLocation(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request, string $device_id): Response
     {
         $lock = $entityManager->getRepository(Lock::class)->findOneBy(['device_id' => $device_id]);
         if (!$lock) {
+            $logger->info('Requested lock by adapter with devide id ' . $device_id . ' does not exist');
             return new Response('Lock does not exist', 404);
         }
 
@@ -24,6 +26,11 @@ class AdapterController extends AbstractController
 
         $lock->setIsConnectedToAdapter(true);
         $lock->setLastContact(new \DateTimeImmutable());
+
+        if (isset($json['packetType'])) {
+            $lock->setLastPackedDescription($json['packetType']);
+            $logger->info('Received package from adapter with type: ' . $json['packetType']);
+        }
 
         if (isset($json['voltage'])) {
             $lockType = $lock->getLockType();
@@ -45,10 +52,6 @@ class AdapterController extends AbstractController
             if ($minCsq != null && $maxCsq != null) {
                 $lock->setCellularSignalQualityPercentage(round(($json['csq'] - $minCsq) / ($maxCsq - $minCsq) * 100));
             }
-        }
-
-        if (isset($json['packetType'])) {
-            $lock->setLastPackedDescription($json['packetType']);
         }
 
         if (isset($json['noGps'])) {
