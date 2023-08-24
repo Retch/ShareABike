@@ -23,7 +23,7 @@ services:
       db:
         condition: service_healthy
   nginx:
-      image: nginx:1.25.2-alpine
+      image: nginx:1.25.2-alpine3.18
       container_name: shareabike-backend
       ports:
           - "8000:80"
@@ -47,6 +47,17 @@ services:
       - shareabike_db_data:/var/lib/postgresql/data
     ports:
       - "5420:5432"
+  omni-adapter:
+    image: ghcr.io/retch/shareabike-omni-lock-adapter:latest
+    restart: unless-stopped
+    environment:
+      - BACKEND_HOST_URL=http://nginx:80
+      - BACKEND_USERNAME=adapter
+      - BACKEND_PASSWORD=password
+    ports:
+      - "9679:9679"
+    depends_on:
+          - nginx
 
 volumes:
   shareabike_db_data:
