@@ -10,7 +10,7 @@ services:
       DATABASE_URL: postgresql://app:app@db:5432/shareabike?serverVersion=15&charset=utf8
       # Adapter password hash $ has to be escaped with another $. The hashed password equals "password". Please change! https://bcyrpt.online
       ADAPTER_USERNAME: adapter
-      ADAPTER_PASSWORDHASH: $$2y$$05$$CCeJCVyhcFXQl9WM.DbdzOzIrwQ13Ab7u75FO78f.XDKNkwu.XsAu
+      ADAPTER_PASSWORDHASH: $$2y$$05$$FeOvneskMbZH6BomStPKp.h.cV035NSTFF66JJOmu.ox60DHt2Eeq
     restart: unless-stopped
     command: sh -c "php bin/console doctrine:migrations:migrate --no-interaction && php-fpm"
     healthcheck:
