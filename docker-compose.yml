@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   php-fpm:
@@ -6,21 +6,25 @@ services:
       context: .
     environment:
       APP_ENV: dev
+      # Choose a unique app secret
       APP_SECRET: 00000000000000000000000000000000
-      DATABASE_URL: "postgresql://app:app@db:5432/shareabike?serverVersion=15&charset=utf8"
+      DATABASE_URL: postgresql://app:app@db:5432/shareabike?serverVersion=15&charset=utf8
+      # Adapter password hash $ has to be escaped with another $. The hashed password equals "password". Please change! https://bcyrpt.online
+      ADAPTER_USERNAME: adapter
+      ADAPTER_PASSWORDHASH: $$2y$$05$$CCeJCVyhcFXQl9WM.DbdzOzIrwQ13Ab7u75FO78f.XDKNkwu.XsAu
     restart: unless-stopped
     command: sh -c "php bin/console doctrine:migrations:migrate --no-interaction && php-fpm"
     healthcheck:
            test: ["CMD", "nc", "-zv", "localhost", "9000"]
-           interval: 30s
-           timeout: 2s
+           interval: 10s
+           timeout: 5s
            retries: 5
     depends_on:
       db:
         condition: service_healthy
-  web:
+  nginx:
       image: nginx:1.25.2-alpine
-      container_name: shareabike-web
+      container_name: shareabike-backend
       ports:
           - "8000:80"
       volumes:
