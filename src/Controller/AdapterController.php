@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Lock;
 
 
-class ApiAdapterController extends AbstractController
+class AdapterController extends AbstractController
 {
     #[Route('/adapter/{device_id}/updatestatus', name: 'app_adapter_update_status', methods: ['POST'])]
     public function updateLocation(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request, string $device_id): Response

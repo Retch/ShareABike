@@ -5,5 +5,13 @@ gesdinet_jwt_refresh_token:
     single_use: true
     user_provider: db_users
     ttl_update: true
+    cookie:
+        enabled: true
+        same_site: lax
+        path: /
+        domain: null
+        http_only: true
+        secure: true
+        remove_token_from_body: true
 
 # https://github.com/markitosgv/JWTRefreshTokenBundle

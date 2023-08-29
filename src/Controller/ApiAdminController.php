@@ -28,7 +28,7 @@ class ApiAdminController extends AbstractController
                 'qrCodeContent' => $lock->getQrCodeContent(),
                 'isLocked' => $lock->isLocked(),
                 'isConnecteToAdapter' => $lock->isConnectedToAdapter(),
-                'last_contact' => $lock->getLastContact(),
+                'lastContact' => $lock->getLastContact(),
                 'battery_percentage' => $lock->getBatteryPercentage(),
                 'cellular_signal_quality_percentage' => $lock->getCellularSignalQualityPercentage(),
                 'noGps' => $lock->isNoGps(),
