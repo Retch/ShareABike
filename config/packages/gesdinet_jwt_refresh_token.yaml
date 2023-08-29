@@ -1,0 +1,9 @@
+gesdinet_jwt_refresh_token:
+    refresh_token_class: App\Entity\RefreshToken
+    ttl: 2592000
+    manager_type: orm
+    single_use: true
+    user_provider: db_users
+    ttl_update: true
+
+# https://github.com/markitosgv/JWTRefreshTokenBundle
