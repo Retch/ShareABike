@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -10,11 +11,32 @@ security:
                     - identifier: '%env(ADAPTER_USERNAME)%'
                       password: '%env(ADAPTER_PASSWORDHASH)%'
                       roles: [ ROLE_ADAPTER ]
+        db_users:
+            entity:
+                class: App\Entity\User
+                property: email
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            login_throttling:
+                max_attempts: 3
+            provider: db_users
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+            provider: db_users
 
         adapter_area:
             pattern: ^/adapter
@@ -24,6 +46,8 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+
+        
 
 
             # activate different ways to authenticate
@@ -38,6 +62,10 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }+#
         - { path: ^/adapter, roles: ROLE_ADAPTER }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/jwt_check, roles: IS_AUTHENTICATED_FULLY   }
+        - { path: ^/api/admin, roles: ROLE_ADMIN }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
