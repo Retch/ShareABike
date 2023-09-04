@@ -11,8 +11,9 @@ services:
       # Adapter password hash $ has to be escaped with another $. The hashed password equals "password". Please change! https://bcyrpt.online
       ADAPTER_USERNAME: adapter
       ADAPTER_PASSWORDHASH: $$2y$$05$$FeOvneskMbZH6BomStPKp.h.cV035NSTFF66JJOmu.ox60DHt2Eeq
+      CORS_ALLOW_ORIGIN: http://localhost:4200 # Change this to your frontend URL
     restart: unless-stopped
-    command: sh -c "php bin/console doctrine:migrations:migrate --no-interaction && php-fpm"
+    command: sh -c "php bin/console doctrine:migrations:migrate --no-interaction && php bin/console lexik:jwt:generate-keypair --skip-if-exists && php-fpm"
     healthcheck:
            test: ["CMD", "nc", "-zv", "localhost", "9000"]
            interval: 10s
