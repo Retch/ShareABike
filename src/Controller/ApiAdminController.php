@@ -29,6 +29,8 @@ class ApiAdminController extends AbstractController
                 'isLocked' => $lock->isLocked(),
                 'lockTypeDescription' => $lock->getLockType()->getDescription(),
                 'isConnectedToAdapter' => $lock->isConnectedToAdapter(),
+                'lastEvent' => $lock->getLastEvent(),
+                'lastEventUtcTimestamp' => $lock->getLastEventTime() == null ? null : $lock->getLastEventTime()->getTimestamp(),
                 'lastContactUtcTimestamp' => $lock->getLastContact() == null ? null : $lock->getLastContact()->getTimestamp(),
                 'batteryPercentage' => $lock->getBatteryPercentage(),
                 'cellularSignalQualityPercentage' => $lock->getCellularSignalQualityPercentage(),
