@@ -11,7 +11,7 @@ gesdinet_jwt_refresh_token:
         path: /
         domain: null
         http_only: false
-        secure: false
+        secure: true
         remove_token_from_body: true
 
 # https://github.com/markitosgv/JWTRefreshTokenBundle
