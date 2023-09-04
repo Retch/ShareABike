@@ -37,6 +37,7 @@ class ApiAdminController extends AbstractController
                 'noGps' => $lock->isNoGps(),
                 'lastPositionTimeUtcTimestamp' => $lock->getLastPositionTime() == null ? null : $lock->getLastPositionTime()->getTimestamp(),
                 'satellites' => $lock->getSatellites(),
+                'hdop' => $lock->getLastPositionHdop(),
                 'latitudeDegrees' => $lock->getLatitudeDegrees(),
                 'longitudeDegrees' => $lock->getLongitudeDegrees(),
                 'latitudeHemisphere' => $lock->getLatitudeHemisphere(),
