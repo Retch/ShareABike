@@ -7,7 +7,7 @@ gesdinet_jwt_refresh_token:
     ttl_update: true
     cookie:
         enabled: true
-        same_site: lax
+        same_site: strict
         path: /
         domain: null
         http_only: false
