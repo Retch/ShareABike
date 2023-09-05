@@ -1,4 +1,5 @@
 FROM php:8.2-fpm-alpine3.18
+LABEL org.opencontainers.image.source="https://github.com/retch/shareabike"
 
 ENV DATABASE_URL=pgsql://postgres:postgres@db:5432/postgres
 ENV APP_ENV=dev
