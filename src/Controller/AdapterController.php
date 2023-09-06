@@ -91,9 +91,18 @@ class AdapterController extends AbstractController
         }
 
         if (isset($json['event'])) {
-            $lock->setLastEvent($json['event']);
+            $event = $json['event'];
+            if (str_contains(strtolower($event), "recovery"))
+            {
+                $lock->setLastEvent(null);
+            }
+            else
+            {
+                $lock->setLastEvent($event);
+            }
+            $lock->setLastEventTime(new \DateTimeImmutable());
         }
-        
+
 
         $entityManager->persist($lock);
         $entityManager->flush();
