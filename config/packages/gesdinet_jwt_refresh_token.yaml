@@ -9,7 +9,7 @@ gesdinet_jwt_refresh_token:
         enabled: true
         same_site: none
         path: /
-        domain: null
+        domain: '%env(JWT_REFRESH_COOKIE_DOMAIN)%'
         http_only: false
         secure: '%env(bool:JWT_REFRESH_COOKIE_SECURE)%'
         remove_token_from_body: true
