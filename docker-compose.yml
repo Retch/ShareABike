@@ -4,7 +4,7 @@ services:
   php-fpm:
     image: ghcr.io/retch/shareabike-backend:latest
     environment:
-      APP_ENV: dev
+      APP_ENV: prod
       # Choose a unique app secret
       APP_SECRET: 00000000000000000000000000000000
       DATABASE_URL: postgresql://app:app@db:5432/shareabike?serverVersion=15&charset=utf8
