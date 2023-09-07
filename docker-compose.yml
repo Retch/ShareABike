@@ -8,6 +8,9 @@ services:
       # Choose a unique app secret
       APP_SECRET: 00000000000000000000000000000000
       DATABASE_URL: postgresql://app:app@db:5432/shareabike?serverVersion=15&charset=utf8
+      JWT_TTL: 300
+      JWT_REFRESH_COOKIE_SECURE: true
+      JWT_REFRESH_TOKEN_TTL: 2592000
       # Adapter password hash $ has to be escaped with another $. The hashed password equals "password". Please change! https://bcyrpt.online
       ADAPTER_USERNAME: adapter
       ADAPTER_PASSWORDHASH: $$2y$$05$$FeOvneskMbZH6BomStPKp.h.cV035NSTFF66JJOmu.ox60DHt2Eeq
