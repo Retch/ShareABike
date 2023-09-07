@@ -28,4 +28,4 @@ RUN php bin/console cache:clear
 
 EXPOSE 9000
 
-CMD ["php-fpm"]
+CMD ["php bin/console cache:clear && php-fpm"]
