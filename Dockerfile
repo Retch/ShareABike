@@ -24,6 +24,8 @@ COPY .env composer.lock composer.json symfony.lock ./
 
 RUN composer install --no-interaction
 
+RUN php bin/console cache:clear
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
