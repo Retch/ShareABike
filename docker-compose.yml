@@ -24,7 +24,7 @@ services:
         condition: service_healthy
   nginx:
     image: nginx:1.25.2-alpine3.18
-    container_name: shareabike-backend
+    container_name: shareabike-backend-nginx
     ports:
       - "8000:80"
     volumes:
