@@ -5,6 +5,7 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,5 +49,28 @@ class ApiAdminController extends AbstractController
         return $this->json([
             'locks' => $locks,
         ]);
+    }
+
+    #[Route('/api/admin/requestunlock/{id}', name: 'app_api_admin_unlock', methods: ['GET'])]
+    public function unlockLockById(EntityManagerInterface $entityManager, LoggerInterface $logger, int $id): Response
+    {
+        $httpClient = HttpClient::create();
+
+        $lock = $entityManager->getRepository(Lock::class)->find($id);
+
+        $content = "Adapter type not implemented yet";
+        $statusCode = 501;
+
+        if (str_contains(strtolower($lock->getLockType()->getDescription()), "omni"))
+        {
+            $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/unlock/';
+
+            $response = $httpClient->request('GET', $requestUrl);
+
+            $statusCode = $response->getStatusCode();
+            $content = $response->getContent();
+        }
+
+        return new Response($content, $statusCode);
     }
 }
