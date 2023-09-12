@@ -87,7 +87,7 @@ class AdapterController extends AbstractController
         {
             $lock->setInfoSwVersion($json['lockSwVersion']);
             $lock->setInfoHwRevision($json['lockHwRevision']);
-            $lock->setInfoSwDate($json['lockSwDate']);
+            $lock->setInfoSwDate(new \DateTimeImmutable('@', $json['lockSwDate']));
         }
 
         if (isset($json['event'])) {
