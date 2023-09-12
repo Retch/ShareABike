@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\HttpClient;
@@ -57,6 +58,11 @@ class ApiAdminController extends AbstractController
         $httpClient = HttpClient::create();
 
         $lock = $entityManager->getRepository(Lock::class)->find($id);
+
+        if (!isset($lock))
+        {
+            throw new ErrorException("Lock with id " . $id . " not found in database");
+        }
 
         $content = "Adapter type not implemented yet";
         $statusCode = 501;
