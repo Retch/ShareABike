@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -71,10 +72,17 @@ class ApiAdminController extends AbstractController
         {
             $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/unlock';
 
-            $response = $httpClient->request('GET', $requestUrl);
-
-            $statusCode = $response->getStatusCode();
-            $content = $response->getContent();
+            try {
+                $response = $httpClient->request('GET', $requestUrl);
+            }
+            catch (ServerException $e)
+            {
+                $logger->error('Error at adapter: ' . $e->getMessage());
+            }
+            finally {
+                $statusCode = $response->getStatusCode();
+                $content = $response->getContent();
+            }
         }
 
         return new Response($content, $statusCode);
