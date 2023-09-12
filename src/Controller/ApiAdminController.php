@@ -69,7 +69,7 @@ class ApiAdminController extends AbstractController
 
         if (str_contains(strtolower($lock->getLockType()->getDescription()), "omni"))
         {
-            $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/unlock/';
+            $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/unlock';
 
             $response = $httpClient->request('GET', $requestUrl);
 
