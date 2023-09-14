@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Lock;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 
@@ -89,6 +92,9 @@ class ApiAdminController extends AbstractController
         return new Response($content, $statusCode);
     }
 
+    /**
+     * @throws ErrorException
+     */
     #[Route('/api/admin/requestposition/{id}', name: 'app_api_admin_position', methods: ['GET'])]
     public function positionLockById(EntityManagerInterface $entityManager, LoggerInterface $logger, int $id): Response
     {
@@ -111,7 +117,7 @@ class ApiAdminController extends AbstractController
             try {
                 $httpClient->request('GET', $requestUrl);
             }
-            catch (TransportExceptionInterface $e)
+            catch (\Throwable $e)
             {
                 $logger->error('Error at adapter: ' . $e->getMessage());
             }
