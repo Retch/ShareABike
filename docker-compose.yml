@@ -15,6 +15,7 @@ services:
       ADAPTER_USERNAME: adapter
       ADAPTER_PASSWORDHASH: $$2y$$05$$FeOvneskMbZH6BomStPKp.h.cV035NSTFF66JJOmu.ox60DHt2Eeq
       OMNI_ADAPTER_URL: http://omni-adapter:8079
+      OMNI_LOCK_RING_AMOUNT: 5
       CORS_ALLOW_ORIGIN: http://localhost:4200 # Change this to your frontend URL
     restart: unless-stopped
     command: sh -c "php bin/console cache:clear && php bin/console doctrine:migrations:migrate --no-interaction && php bin/console lexik:jwt:generate-keypair --skip-if-exists && php-fpm"

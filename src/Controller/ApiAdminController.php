@@ -98,6 +98,44 @@ class ApiAdminController extends AbstractController
     /**
      * @throws ErrorException
      */
+    #[Route('/api/admin/requestring/{id}', name: 'app_api_admin_ring', methods: ['GET'])]
+    public function ringLockById(EntityManagerInterface $entityManager, LoggerInterface $logger, int $id): Response
+    {
+        $httpClient = HttpClient::create();
+
+        $lock = $entityManager->getRepository(Lock::class)->find($id);
+
+        if (!isset($lock))
+        {
+            throw new ErrorException("Lock with id " . $id . " not found in database");
+        }
+
+        $content = "Adapter type not implemented yet";
+        $statusCode = 501;
+
+        if (str_contains(strtolower($lock->getLockType()->getDescription()), "omni"))
+        {
+            $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/ring/' . $_ENV['OMNI_LOCK_RING_AMOUNT'];
+
+            try {
+                $response = $httpClient->request('GET', $requestUrl);
+                $content = $response->getContent();
+                $statusCode = $response->getStatusCode();
+            }
+            catch (\Throwable $e)
+            {
+                $logger->error('Error at adapter: ' . $e->getMessage());
+                $content = $e->getMessage();
+                $statusCode = $e->getCode();
+            }
+        }
+
+        return new Response($content, $statusCode);
+    }
+
+    /**
+     * @throws ErrorException
+     */
     #[Route('/api/admin/requestposition/{id}', name: 'app_api_admin_position', methods: ['GET'])]
     public function positionLockById(EntityManagerInterface $entityManager, LoggerInterface $logger, int $id): Response
     {
@@ -116,6 +154,43 @@ class ApiAdminController extends AbstractController
         if (str_contains(strtolower($lock->getLockType()->getDescription()), "omni"))
         {
             $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/position';
+
+            try {
+                $response = $httpClient->request('GET', $requestUrl);
+                $content = $response->getContent();
+                $statusCode = $response->getStatusCode();
+            }
+            catch (\Throwable $e)
+            {
+                $logger->error('Error at adapter: ' . $e->getMessage());
+                $content = $e->getMessage();
+                $statusCode = $e->getCode();
+            }
+        }
+        return new Response($content, $statusCode);
+    }
+
+    /**
+     * @throws ErrorException
+     */
+    #[Route('/api/admin/requestinfo/{id}', name: 'app_api_admin_info', methods: ['GET'])]
+    public function infoLockById(EntityManagerInterface $entityManager, LoggerInterface $logger, int $id): Response
+    {
+        $httpClient = HttpClient::create();
+
+        $lock = $entityManager->getRepository(Lock::class)->find($id);
+
+        if (!isset($lock))
+        {
+            throw new ErrorException("Lock with id " . $id . " not found in database");
+        }
+
+        $content = "Adapter type not implemented yet";
+        $statusCode = 501;
+
+        if (str_contains(strtolower($lock->getLockType()->getDescription()), "omni"))
+        {
+            $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/info';
 
             try {
                 $response = $httpClient->request('GET', $requestUrl);
