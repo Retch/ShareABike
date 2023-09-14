@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Lock;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 
 class ApiAdminController extends AbstractController
@@ -82,6 +83,37 @@ class ApiAdminController extends AbstractController
             finally {
                 $statusCode = $response->getStatusCode();
                 $content = $response->getContent();
+            }
+        }
+
+        return new Response($content, $statusCode);
+    }
+
+    #[Route('/api/admin/requestposition/{id}', name: 'app_api_admin_position', methods: ['GET'])]
+    public function positionLockById(EntityManagerInterface $entityManager, LoggerInterface $logger, int $id): Response
+    {
+        $httpClient = HttpClient::create();
+
+        $lock = $entityManager->getRepository(Lock::class)->find($id);
+
+        if (!isset($lock))
+        {
+            throw new ErrorException("Lock with id " . $id . " not found in database");
+        }
+
+        $content = "Adapter type not implemented yet";
+        $statusCode = 501;
+
+        if (str_contains(strtolower($lock->getLockType()->getDescription()), "omni"))
+        {
+            $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/position';
+
+            try {
+                $httpClient->request('GET', $requestUrl);
+            }
+            catch (TransportExceptionInterface $e)
+            {
+                $logger->error('Error at adapter: ' . $e->getMessage());
             }
         }
 
