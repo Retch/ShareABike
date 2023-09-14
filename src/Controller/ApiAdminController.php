@@ -57,6 +57,9 @@ class ApiAdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws ErrorException
+     */
     #[Route('/api/admin/requestunlock/{id}', name: 'app_api_admin_unlock', methods: ['GET'])]
     public function unlockLockById(EntityManagerInterface $entityManager, LoggerInterface $logger, int $id): Response
     {
@@ -78,10 +81,14 @@ class ApiAdminController extends AbstractController
 
             try {
                 $response = $httpClient->request('GET', $requestUrl);
+                $content = $response->getContent();
+                $statusCode = $response->getStatusCode();
             }
-            catch (ServerException $e)
+            catch (\Throwable $e)
             {
                 $logger->error('Error at adapter: ' . $e->getMessage());
+                $content = $e->getMessage();
+                $statusCode = $e->getCode();
             }
         }
 
@@ -111,15 +118,17 @@ class ApiAdminController extends AbstractController
             $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/position';
 
             try {
-                $httpClient->request('GET', $requestUrl);
+                $response = $httpClient->request('GET', $requestUrl);
+                $content = $response->getContent();
+                $statusCode = $response->getStatusCode();
             }
             catch (\Throwable $e)
             {
                 $logger->error('Error at adapter: ' . $e->getMessage());
+                $content = $e->getMessage();
                 $statusCode = $e->getCode();
             }
         }
-
         return new Response($content, $statusCode);
     }
 }
