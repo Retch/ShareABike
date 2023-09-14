@@ -83,10 +83,6 @@ class ApiAdminController extends AbstractController
             {
                 $logger->error('Error at adapter: ' . $e->getMessage());
             }
-            finally {
-                $statusCode = $response->getStatusCode();
-                $content = $response->getContent();
-            }
         }
 
         return new Response($content, $statusCode);
@@ -120,6 +116,7 @@ class ApiAdminController extends AbstractController
             catch (\Throwable $e)
             {
                 $logger->error('Error at adapter: ' . $e->getMessage());
+                $statusCode = $e->getCode();
             }
         }
 
