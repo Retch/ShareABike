@@ -86,7 +86,7 @@ class ApiAdminController extends AbstractController
             return new Response("Lock with device id " . $json['deviceId'] . " already exists", 409);
         }
 
-        $lockType = $entityManager->getRepository(LockType::class)->findOneBy(['id' => $json['lockTypeId']]);
+        $lockType = $entityManager->getRepository(LockType::class)->find($json['lockTypeId']);
         if ($lockType == null)
         {
             return new Response("Lock type with id " . $json['lockTypeId'] . " does not exist", 409);
@@ -101,6 +101,23 @@ class ApiAdminController extends AbstractController
         $entityManager->flush();
 
         return new Response("added lock", 200);
+    }
+
+    #[Route('/api/admin/lock/{id}', name: 'app_api_admin_delete_lock', methods: ['DELETE'])]
+    public function deleteLock(EntityManagerInterface $entityManager, int $id): Response
+    {
+
+        $lock = $entityManager->getRepository(Lock::class)->find($id);
+
+        if ($lock == null)
+        {
+            return new Response("Lock with id " . $id . " does not exist", 409);
+        }
+
+        $entityManager->remove($lock);
+        $entityManager->flush();
+
+        return new Response("deleted lock", 200);
     }
 
     #[Route('/api/admin/locktype', name: 'app_api_admin_add_locktype', methods: ['POST'])]
