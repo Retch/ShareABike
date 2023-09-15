@@ -72,7 +72,7 @@ class ApiAdminController extends AbstractController
         }
 
         return $this->json([
-            'locktypes' => $locksTypes,
+            'lockTypes' => $locksTypes,
         ]);
     }
 
