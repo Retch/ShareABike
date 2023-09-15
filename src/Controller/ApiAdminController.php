@@ -2,27 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\LockType;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Lock;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 
 class ApiAdminController extends AbstractController
 {
-    #[Route('/api/admin/getall', name: 'app_api_admin_get', methods: ['GET'])]
-    public function getAllLocksWithStatus(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request): JsonResponse 
+    #[Route('/api/admin/locks', name: 'app_api_admin_get_locks', methods: ['GET'])]
+    public function getAllLocks(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request): JsonResponse
     {
         $lockEntries = $entityManager->getRepository(Lock::class)->findAll();
 
@@ -54,6 +50,29 @@ class ApiAdminController extends AbstractController
 
         return $this->json([
             'locks' => $locks,
+        ]);
+    }
+
+    #[Route('/api/admin/locktypes', name: 'app_api_admin_get_locktypes', methods: ['GET'])]
+    public function getAllLockTypes(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request): JsonResponse
+    {
+        $lockTypeEntries = $entityManager->getRepository(LockType::class)->findAll();
+
+        $locksTypes = [];
+
+        foreach($lockTypeEntries as $lockType) {
+            $locksTypes[] = [
+                'id' => $lockType->getId(),
+                'description' => $lockType->getDescription(),
+                'batteryVoltageMinValue' => $lockType->getBatteryVoltageMin(),
+                'batteryVoltageMaxValue' => $lockType->getBatteryVoltageMax(),
+                'cellularSignalQualityMinValue' => $lockType->getCellularSignalQualityMin(),
+                'cellularSignalQualityMaxValue' => $lockType->getCellularSignalQualityMax(),
+            ];
+        }
+
+        return $this->json([
+            'locktypes' => $locksTypes,
         ]);
     }
 
