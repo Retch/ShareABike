@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Lock;
 use App\Entity\LockType;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
@@ -12,13 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Lock;
 
 
 class ApiAdminController extends AbstractController
 {
     #[Route('/api/admin/locks', name: 'app_api_admin_get_locks', methods: ['GET'])]
-    public function getAllLocks(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request): JsonResponse
+    public function getAllLocks(EntityManagerInterface $entityManager): JsonResponse
     {
         $lockEntries = $entityManager->getRepository(Lock::class)->findAll();
 
@@ -54,7 +54,7 @@ class ApiAdminController extends AbstractController
     }
 
     #[Route('/api/admin/locktypes', name: 'app_api_admin_get_locktypes', methods: ['GET'])]
-    public function getAllLockTypes(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request): JsonResponse
+    public function getAllLockTypes(EntityManagerInterface $entityManager): JsonResponse
     {
         $lockTypeEntries = $entityManager->getRepository(LockType::class)->findAll();
 
@@ -64,16 +64,66 @@ class ApiAdminController extends AbstractController
             $locksTypes[] = [
                 'id' => $lockType->getId(),
                 'description' => $lockType->getDescription(),
-                'batteryVoltageMinValue' => $lockType->getBatteryVoltageMin(),
-                'batteryVoltageMaxValue' => $lockType->getBatteryVoltageMax(),
-                'cellularSignalQualityMinValue' => $lockType->getCellularSignalQualityMin(),
-                'cellularSignalQualityMaxValue' => $lockType->getCellularSignalQualityMax(),
+                'batteryVoltageMin' => $lockType->getBatteryVoltageMin(),
+                'batteryVoltageMax' => $lockType->getBatteryVoltageMax(),
+                'cellularSignalQualityMin' => $lockType->getCellularSignalQualityMin(),
+                'cellularSignalQualityMax' => $lockType->getCellularSignalQualityMax(),
             ];
         }
 
         return $this->json([
             'lockTypes' => $locksTypes,
         ]);
+    }
+
+    #[Route('/api/admin/lock', name: 'app_api_admin_add_lock', methods: ['POST'])]
+    public function addLock(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $json = json_decode($request->getContent(), true);
+
+        if ($entityManager->getRepository(Lock::class)->findOneBy(['device_id' => $json['deviceId']]) != null)
+        {
+            return new Response("Lock with device id " . $json['deviceId'] . " already exists", 409);
+        }
+
+        $lockType = $entityManager->getRepository(LockType::class)->findOneBy(['id' => $json['lockTypeId']]);
+        if ($lockType == null)
+        {
+            return new Response("Lock type with id " . $json['lockTypeId'] . " does not exist", 409);
+        }
+
+        $lock = new Lock();
+        $lock->setDeviceId($json['deviceId']);
+        $lock->setQrCodeContent($json['qrCodeContent']);
+        $lock->setLockType($lockType);
+
+        $entityManager->persist($lock);
+        $entityManager->flush();
+
+        return new Response("added lock", 200);
+    }
+
+    #[Route('/api/admin/locktype', name: 'app_api_admin_add_locktype', methods: ['POST'])]
+    public function addLockType(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $json = json_decode($request->getContent(), true);
+
+        if ($entityManager->getRepository(LockType::class)->findOneBy(['description' => $json['description']]) != null)
+        {
+            return new Response("LockType with description " . $json['description'] . " already exists", 409);
+        }
+
+        $lockType = new LockType();
+        $lockType->setDescription($json['description']);
+        $lockType->setBatteryVoltageMin($json['batteryVoltageMin']);
+        $lockType->setBatteryVoltageMax($json['batteryVoltageMax']);
+        $lockType->setCellularSignalQualityMin($json['cellularSignalQualityMin']);
+        $lockType->setCellularSignalQualityMax($json['cellularSignalQualityMax']);
+
+        $entityManager->persist($lockType);
+        $entityManager->flush();
+
+        return new Response("added locktype", 200);
     }
 
     /**
