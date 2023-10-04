@@ -35,6 +35,8 @@ security:
                 max_attempts: 3
             refresh_jwt:
                 check_path: /api/token/refresh
+            logout:
+                path: api_token_invalidate
 
         adapter_area:
             pattern: ^/adapter
