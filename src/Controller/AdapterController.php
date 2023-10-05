@@ -109,24 +109,4 @@ class AdapterController extends AbstractController
 
         return new Response('', 200);
     }
-
-    #[Route('/adapter/{device_id}/isconnectedstatus/{connected}', name: 'app_adapter_connected_status', methods: ['GET'])]
-    public function connectedStatus(EntityManagerInterface $entityManager, string $device_id, string $connected): Response
-    {
-        $lock = $entityManager->getRepository(Lock::class)->findOneBy(['device_id' => $device_id]);
-        if (!$lock) {
-            return new Response('Lock does not exist', 404);
-        }
-
-        if ($connected === 'true') {
-            $lock->setIsConnectedToAdapter(true);
-        } else {
-            $lock->setIsConnectedToAdapter(false);
-        }
-
-        $entityManager->persist($lock);
-        $entityManager->flush();
-
-        return new Response('', 200);
-    }
 }
