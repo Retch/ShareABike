@@ -10,7 +10,7 @@ For better unerstanding, all api routes come with sample data. Values in [] are 
 #### Update Status
 The adapter sends data to the backend via the adapter endpoint. Only values that changed are sent from the adaptet to the backend. All values are optional.
 ##### Request
-```curl
+```bash
 curl -u [ADAPTER_BACKEND_USER]:[ADAPTER_BACKEND_PASSWORD] --location 'http://[BACKEND_HOST]/adapter/[IMEI]/updatestatus' \
 --header 'Content-Type: application/json' \
 --data '{
@@ -42,7 +42,7 @@ Status codes
 The backend uses jwt auth with refresh token in cookie.
 #### Login
 ##### Request
-```
+```bash
 curl --location 'http://[BACKEND_HOST]/api/login_check' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -55,7 +55,7 @@ If successful, a jwt will be returned in the body and the refresh token will be 
 #### Check jwt
 To check the validity of a jwt. Jwt validity period can be adjusted in the compose.
 ##### Request
-```
+```bash
 curl --location 'http://[BACKEND_HOST]/api/jwt_check' \
 --header 'Authorization: Bearer [JWT]'
 ```
@@ -66,7 +66,7 @@ Status codes:
 #### Refresh
 Because of security reasons, the jwt has a very limited validity time period. For that reason, a new jwt has to be requested with passing the previously received refresh_token cookie.
 ##### Request
-```
+```bash
 curl --location 'http://[BACKEND_HOST]/api/token/refresh' \
 --header 'Cookie: refresh_token=[REFRESH_TOKEN_COOKIE]'
 ```
@@ -75,11 +75,46 @@ If successful, a new jwt will be returned in the body.
 #### Logout
 The refresh_token cookie has to be sent along, so it can be invalidated and the user logged out. Remember to remove the jwt from the frontend application also.
 ##### Request
-```
+```bash
 curl --location 'http://[BACKEND_HOST]/api/token/invalidate' \
 --header 'Cookie: refresh_token=[REFRESH_TOKEN_COOKIE]'
 ```
 ##### Response
 If successfull, http 200 will be returned.
 ### Admin
+#### Get All Locks
+##### Request
+```bash
+curl --location 'http://[BACKEND_HOST]/api/admin/locks' \
+--header 'Authorization: Bearer [JWT]'
+```
+##### Response
+```json
+{
+    "locks": [
+        {
+            "id": 1,
+            "deviceId": "123456789",
+            "qrCodeContent": "123456",
+            "isLocked": true,
+            "lockTypeDescription": "omni",
+            "isConnectedToAdapter": true,
+            "lastEvent": null,
+            "lastEventUtcTimestamp": null,
+            "lastContactUtcTimestamp": 1693299451,
+            "batteryPercentage": 76,
+            "cellularSignalQualityPercentage": 51,
+            "noGps": false,
+            "lastPositionTimeUtcTimestamp": 1693228697,
+            "satellites": 8,
+            "hdop": 1,
+            "latitudeDegrees": 50.964,
+            "longitudeDegrees": 11.048,
+            "latitudeHemisphere": "N",
+            "longitudeHemisphere": "E"
+        }
+    ]
+}
+```
 ### User
+To be implemented
