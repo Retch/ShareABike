@@ -8,7 +8,7 @@ Use the docker-compose.yml file from this repository to configure and run the so
 For better unerstanding, all api routes come with sample data. Values in [] are placeholder.
 ### Adapter
 #### Update Status
-The adapter sends data to the backend via the adapter endpoint. Only values that changed are sent.
+The adapter sends data to the backend via the adapter endpoint. Only values that changed are sent from the adaptet to the backend. All values are optional.
 ```curl
 curl -u [ADAPTER_BACKEND_USER]:[ADAPTER_BACKEND_PASSWORD] --location 'http://[BACKEND_HOST]/adapter/[IMEI]/updatestatus' \
 --header 'Content-Type: application/json' \
