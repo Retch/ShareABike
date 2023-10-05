@@ -89,6 +89,7 @@ curl --location 'http://[BACKEND_HOST]/api/admin/locks' \
 --header 'Authorization: Bearer [JWT]'
 ```
 ##### Response
+Array of locks
 ```json
 {
     "locks": [
@@ -116,5 +117,62 @@ curl --location 'http://[BACKEND_HOST]/api/admin/locks' \
     ]
 }
 ```
+#### Get All Lock types
+##### Request
+```bash
+curl --location 'http://[BACKEND_HOST]/api/admin/locktypes' \
+--header 'Authorization: Bearer [JWT]'
+```
+##### Response
+Array of lock types
+```json
+{
+    "lockTypes": [
+        {
+            "id": 1,
+            "description": "omni",
+            "batteryVoltageMin": 3.4,
+            "batteryVoltageMax": 4.2,
+            "cellularSignalQualityMin": 2,
+            "cellularSignalQualityMax": 32
+        }
+    ]
+}
+```
+#### Add lock
+##### Request
+```bash
+curl --location 'http://[BACKEND_HOST]/api/admin/lock' \
+--header 'Authorization: Bearer [JWT]' \
+--header 'Content-Type: application/json' \
+--data '{
+    "deviceId": "123456789",
+    "qrCodeContent": "123456",
+    "lockTypeId": 1
+}'
+```
+##### Response
+Status codes:
+- 200: Lock added successfully
+- 409: Lock with lock id already exists
+#### Add Lock Type
+With a fresh setup and a clean database, you have to define the lock type. At the moment, only omni locks are supported, so the table will only have one lock type entry.
+##### Request
+```bash
+curl --location 'http://[BACKEND_HOST]/api/admin/locktype' \
+--header 'Authorization: Bearer [JWT]' \
+--header 'Content-Type: application/json' \
+--data '{
+    "description": "omni",
+    "batteryVoltageMin": 3.4,
+    "batteryVoltageMax": 4.2,
+    "cellularSignalQualityMin": 2,
+    "cellularSignalQualityMax": 32
+}'
+```
+##### Response
+Status codes:
+- 200: Lock type added successfully
+- 409: Lock type with description already exists
 ### User
 To be implemented
