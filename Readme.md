@@ -51,17 +51,35 @@ curl --location 'http://[BACKEND_HOST]/api/login_check' \
 }'
 ```
 ##### Response
-If successful, a jwt will be returned in the body and the refresh token will be contained in a cookie.
+If successful, a jwt will be returned in the body and the refresh token will be contained in a cookie called refesh_token.
 #### Check jwt
 To check the validity of a jwt. Jwt validity period can be adjusted in the compose.
 ##### Request
 ```
-curl --location 'http://[BACKEND_HOST]:8000/api/jwt_check' \
---header 'Authorization: Bearer [JWT]
+curl --location 'http://[BACKEND_HOST]/api/jwt_check' \
+--header 'Authorization: Bearer [JWT]'
 ```
 ##### Response
 Status codes:
 - 200: jwt is valid
 - 401: jwt is invalid
+#### Refresh
+Because of security reasons, the jwt has a very limited validity time period. For that reason, a new jwt has to be requested with passing the previously received refresh_token cookie.
+##### Request
+```
+curl --location 'http://[BACKEND_HOST]/api/token/refresh' \
+--header 'Cookie: refresh_token=[REFRESH_TOKEN_COOKIE]'
+```
+##### Response
+If successful, a new jwt will be returned in the body.
+#### Logout
+The refresh_token cookie has to be sent along, so it can be invalidated and the user logged out. Remember to remove the jwt from the frontend application also.
+##### Request
+```
+curl --location 'http://[BACKEND_HOST]/api/token/invalidate' \
+--header 'Cookie: refresh_token=[REFRESH_TOKEN_COOKIE]'
+```
+##### Response
+If successfull, http 200 will be returned.
 ### Admin
 ### User
