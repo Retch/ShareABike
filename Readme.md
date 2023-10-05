@@ -156,7 +156,7 @@ Status codes:
 - 200: Lock added successfully
 - 409: Lock with lock id already exists
 #### Add Lock Type
-With a fresh setup and a clean database, you have to define the lock type. At the moment, only omni locks are supported, so the table will only have one lock type entry.
+With a fresh setup and a clean database, you have to define the lock type. At the moment, only omni locks are supported, so the table will only have one lock type entry.<br />
 !Important: When adding a lock type "family" and the lock type you want to add is from brand omni lock or follows the protocol, be sure to use "omni" as description string because some lock specific functions as unlocking are specific to the lock type. The backend will check the lock type description and when it contains "omni" the onmi specific functions are going to work.
 ##### Request
 ```bash
