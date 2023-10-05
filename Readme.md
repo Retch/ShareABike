@@ -36,8 +36,8 @@ curl -u [ADAPTER_BACKEND_USER]:[ADAPTER_BACKEND_PASSWORD] --location 'http://[BA
 ##### Response:
 Status codes
 - 200: Data was successfully received
-- 401: Propably username or password not correct
-- 404: Propably lock with given imei does not exist in backend database
+- 401: Probably username or password not correct
+- 404: Probably lock with given imei does not exist in backend database
 ### Auth
 The backend uses jwt auth with refresh token in cookie.
 #### Login
@@ -174,5 +174,15 @@ curl --location 'http://[BACKEND_HOST]/api/admin/locktype' \
 Status codes:
 - 200: Lock type added successfully
 - 409: Lock type with description already exists
+#### Unlock lock
+##### Request
+```
+curl --location 'http://[BACKEND_HOST]/api/admin/requestunlock/[LOCKID]' \
+--header 'Authorization: Bearer [JWT]'
+```
+##### Response
+Status codes:
+- 200: Lock should unlock now
+- 500: Probably lock id not exist
 ### User
 To be implemented
