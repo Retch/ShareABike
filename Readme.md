@@ -157,6 +157,7 @@ Status codes:
 - 409: Lock with lock id already exists
 #### Add Lock Type
 With a fresh setup and a clean database, you have to define the lock type. At the moment, only omni locks are supported, so the table will only have one lock type entry.
+!Important: When adding a lock type "family" and the lock type you want to add is from brand omni lock or follows the protocol, be sure to use "omni" as description string because some lock specific functions as unlocking are specific to the lock type. The backend will check the lock type description and when it contains "omni" the onmi specific functions are going to work.
 ##### Request
 ```bash
 curl --location 'http://[BACKEND_HOST]/api/admin/locktype' \
@@ -176,7 +177,7 @@ Status codes:
 - 409: Lock type with description already exists
 #### Unlock lock
 ##### Request
-```
+```bash
 curl --location 'http://[BACKEND_HOST]/api/admin/requestunlock/[LOCKID]' \
 --header 'Authorization: Bearer [JWT]'
 ```
@@ -184,5 +185,39 @@ curl --location 'http://[BACKEND_HOST]/api/admin/requestunlock/[LOCKID]' \
 Status codes:
 - 200: Lock should unlock now
 - 500: Probably lock id not exist
+- 501: Adapter type unlock not implemented in backend
+#### Trigger lock beep
+##### Request
+```bash
+curl --location 'http://[BACKEND_HOST]/api/admin/requestring/[LOCKID]' \
+--header 'Authorization: Bearer [JWT]'
+```
+##### Response
+Status codes:
+- 200: Lock should beep now
+- 500: Probably lock id not exist
+- 501: Adapter type ring not implemented in backend
+#### Ask lock gps position information
+##### Request
+```bash
+curl --location 'http://[BACKEND_HOST]/api/admin/requestposition/[LOCKID]' \
+--header 'Authorization: Bearer [JWT]'
+```
+##### Response
+Status codes:
+- 200: Lock should fetch gps position and send it back a few minutes later
+- 500: Probably lock id not exist
+- 501: Adapter type ask position not implemented in backend
+#### Ask lock general information
+##### Request
+```bash
+curl --location 'http://[BACKEND_HOST]/api/admin/requestinfo/[LOCKID]' \
+--header 'Authorization: Bearer [JWT]'
+```
+##### Response
+Status codes:
+- 200: Lock should fetch general information and send it back shortly
+- 500: Probably lock id not exist
+- 501: Adapter type ask information not implemented in backend
 ### User
 To be implemented
