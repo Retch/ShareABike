@@ -34,7 +34,7 @@ curl -u [ADAPTER_BACKEND_USER]:[ADAPTER_BACKEND_PASSWORD] --location 'http://[BA
 }'
 ```
 ##### Response:
-Status codes
+Status codes:
 - 200: Data was successfully received
 - 401: Probably username or password not correct
 - 404: Probably lock with given imei does not exist in backend database
