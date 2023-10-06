@@ -61,6 +61,11 @@ services:
       - "9679:9679"
     depends_on:
       - nginx
+  admin-ui:
+    image: ghcr.io/retch/shareabike-admin:latest
+    container_name: shareabike-admin
+    environment:
+      API_URL: http://localhost:8000
 
 volumes:
   shareabike_db_data:
