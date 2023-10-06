@@ -9,7 +9,44 @@ Use the docker-compose.yml file from this repository to configure and run the so
 
 ### With Docker
 
-To run the software stack with docker, the only file needed is the docker-compose.yml
+To run the software stack with docker, the only file needed is [docker-compose.yml](docker-compose.yml).
+Configure the values to your needs.
+The setup should work out of the box, but here is a list of values that are important to be changed.
+
+#### Change values
+
+- APP_SECRET: [Symfony documentation](https://symfony.com/doc/current/reference/configuration/framework.html#secret)
+- ADAPTER_USERNAME: Username which is used by the adapter with basic auth to send data to the backend
+- ADAPTER_PASSWORDHASH: Generate a secure hash with this [tool](https://bcyrpt.online) and your choosen adapter password
+- CORS_ALLOW_ORIGIN: The url where your ui is hosted
+- BACKEND_USERNAME: Same as ADAPTER_USERNAME
+- BACKEND_PASSWORD: The Password corresponding to the ADAPTER_PASSWORDHASH
+
+#### Useful commands
+
+##### Start
+
+```bash
+docker compose up -d
+```
+
+##### Stop
+
+```bash
+docker compose down
+```
+
+##### Logs
+
+```bash
+docker compose logs -f
+```
+
+##### Update
+
+```bash
+docker compose pull
+```
 
 ## Api Documentation
 
