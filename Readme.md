@@ -1,6 +1,10 @@
 # ShareABike main repository
 
-## Service Setup Schema
+- [Service schema](#service-schema)
+- [Setup](#setup)
+- [Configure omni lock](#configure-omni-lock)
+
+## Service schema
 
 Use the docker-compose.yml file from this repository to configure and run the software stack.
 ![service schema](documentation/assets/schema/schema.jpg)
@@ -48,7 +52,7 @@ docker compose logs -f
 docker compose pull
 ```
 
-## Setup omni lock
+## Configure omni lock
 
 Lock configuration is done via an app called *BleTool*.
 First insert the sim card.
