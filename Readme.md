@@ -2,7 +2,7 @@
 
 ## Service Setup Schema
 Use the docker-compose.yml file from this repository to configure and run the software stack.
-![service schema](schema/schema.jpg)
+![service schema](documentation/assets/schema.jpg)
 
 ## Api Documentation
 For better unerstanding, all api routes come with sample data. Values in [] are placeholder.
