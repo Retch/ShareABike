@@ -1,9 +1,9 @@
-# ShareABike
+# ShareABike main repository
 
 ## Service Setup Schema
 
 Use the docker-compose.yml file from this repository to configure and run the software stack.
-![service schema](documentation/assets/schema.jpg)
+![service schema](documentation/assets/schema/schema.jpg)
 
 ## Setup
 
@@ -17,7 +17,7 @@ The setup should work out of the box, but here is a list of values that are impo
 
 - APP_SECRET: [Symfony documentation](https://symfony.com/doc/current/reference/configuration/framework.html#secret)
 - ADAPTER_USERNAME: Username which is used by the adapter with basic auth to send data to the backend
-- ADAPTER_PASSWORDHASH: Generate a secure hash with this [tool](https://bcyrpt.online) and your choosen adapter password
+- ADAPTER_PASSWORDHASH: Generate a secure hash with this [tool](https://bcyrpt.online) and your chosen adapter password
 - CORS_ALLOW_ORIGIN: The url where your ui is hosted
 - BACKEND_USERNAME: Same as ADAPTER_USERNAME
 - BACKEND_PASSWORD: The Password corresponding to the ADAPTER_PASSWORDHASH
@@ -47,6 +47,32 @@ docker compose logs -f
 ```bash
 docker compose pull
 ```
+
+## Setup omni lock
+
+Lock configuration is done via an app called *BleTool*.
+First insert the sim card.
+You have to modify the server domain/ip (omni adapter host) and APN for the sim card network to work.
+A test case code is needed to add a test case
+You can request the app apk and a test case from omni support.
+
+### Visualization
+
+#### BleTool
+
+![BleTool](documentation/assets/screenshots/app_ble_tool.webp)
+
+#### Login
+
+![Login](documentation/assets/screenshots/login.webp)
+
+#### Test case
+
+![Add Test Case](documentation/assets/screenshots/test_case.webp)
+
+#### Set omni adapter host
+
+![Set adapter](documentation/assets/screenshots/set_server.webp)
 
 ## Api Documentation
 
@@ -90,7 +116,7 @@ Status codes:
 
 - 200: Data was successfully received
 - 401: Probably username or password not correct
-- 404: Probably lock with given imei does not exist in backend database
+- 404: Probably lock with given IMEI does not exist in backend database
 
 ### Auth
 
