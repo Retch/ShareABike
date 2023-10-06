@@ -23,7 +23,7 @@ The setup should work out of the box, but here is a list of values that are impo
 - APP_SECRET: [Symfony documentation](https://symfony.com/doc/current/reference/configuration/framework.html#secret)
 - ADAPTER_USERNAME: Username which is used by the adapter with basic auth to send data to the backend
 - ADAPTER_PASSWORDHASH: Generate a secure hash with this [tool](https://bcyrpt.online) and your chosen adapter password
-- CORS_ALLOW_ORIGIN: The url where your ui is hosted
+- CORS_ALLOW_ORIGIN: The url where your ui is hosted, to allow all origins (dev purposes) put in "*"
 - BACKEND_USERNAME: Same as ADAPTER_USERNAME
 - BACKEND_PASSWORD: The Password corresponding to the ADAPTER_PASSWORDHASH
 
