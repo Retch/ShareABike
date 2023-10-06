@@ -110,7 +110,7 @@ curl -u [ADAPTER_BACKEND_USER]:[ADAPTER_BACKEND_PASSWORD] --location 'http://[BA
 }'
 ```
 
-##### Response:
+##### Response
 
 Status codes:
 
