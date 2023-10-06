@@ -3,6 +3,7 @@
 - [Service schema](#service-schema)
 - [Setup](#setup)
 - [Configure omni lock](#configure-omni-lock)
+- [Api documentation](#api-documentation)
 
 ## Service schema
 
