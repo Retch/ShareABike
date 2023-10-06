@@ -60,19 +60,19 @@ You can request the app apk and a test case from omni support.
 
 #### BleTool
 
-![BleTool](documentation/assets/screenshots/app_ble_tool.webp)
+<img src="documentation/assets/screenshots/app_ble_tool.webp" alt="BleTool" width="400"/>
 
 #### Login
 
-![Login](documentation/assets/screenshots/login.webp)
+<img src="documentation/assets/screenshots/login.webp" alt="Login" width="400"/>
 
 #### Test case
 
-![Add Test Case](documentation/assets/screenshots/test_case.webp)
+<img src="documentation/assets/screenshots/test_case.webp" alt="Add test case" width="400"/>
 
 #### Set omni adapter host
 
-![Set adapter](documentation/assets/screenshots/set_server.webp)
+<img src="documentation/assets/screenshots/set_server.webp" alt="Set adapter" width="400"/>
 
 ## Api Documentation
 
