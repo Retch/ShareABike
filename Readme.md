@@ -53,9 +53,21 @@ docker compose logs -f
 docker compose pull
 ```
 
+#### Add admin user
+
+You need to access the database to create an administrator account.
+To access the db, use the _down_ command and add a port forwarding like this to the db part in the _docker-compose.yml_ file:
+
+<img src="documentation/assets/screenshots/add_port.webp" alt="Add port to compose" width="160"/>
+
+Now you can access the db directly or via ssh with your favorite database tool.
+Insert an entry to table _user_ with roles column like following and a hash ([bcrypt.online](https://bcrypt.online/)).
+
+<img src="documentation/assets/screenshots/add_admin_entry.webp" alt="Add entry" width="400"/>
+
 ## Configure omni lock
 
-Lock configuration is done via an app called *BleTool*.
+Lock configuration is done via an app called _BleTool_.
 First insert the sim card.
 You have to modify the server domain/ip (omni adapter host) and APN for the sim card network to work.
 A test case code is needed to add a test case
