@@ -2,6 +2,7 @@
 
 - [Service schema](#service-schema)
 - [Setup](#setup)
+- [Add admin user](#add-admin-user)
 - [Configure omni lock](#configure-omni-lock)
 - [Api documentation](#api-documentation)
 
@@ -58,12 +59,12 @@ docker compose pull
 You need to access the database to create an administrator account.
 To access the db, use the _down_ command and add a port forwarding like this to the db part in the _docker-compose.yml_ file:
 
-<img src="documentation/assets/screenshots/add_port.webp" alt="Add port to compose" width="160"/>
+<img src="documentation/assets/screenshots/add_port.webp" alt="Add port to compose" width="170"/>
 
 Now you can access the db directly or via ssh with your favorite database tool.
 Insert an entry to table _user_ with roles column like following and a hash ([bcrypt.online](https://bcrypt.online/)).
 
-<img src="documentation/assets/screenshots/add_admin_entry.webp" alt="Add entry" width="400"/>
+<img src="documentation/assets/screenshots/add_admin_entry.webp" alt="Add entry" width="500"/>
 
 ## Configure omni lock
 
