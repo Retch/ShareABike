@@ -24,7 +24,7 @@ Use the docker-compose.yml file from this repository to configure and run the so
 Depending on the amount of users and locks interacting with the system, you should have enough ram and cpu power available.
 The following screenshot shows a test system with one lock and one admin user connected:
 
-<img src="documentation/assets/screenshots/system_usage.webp" alt="System memory usage" width="260"/>
+<img src="documentation/assets/screenshots/system_usage.webp" alt="System memory usage" width="340"/>
 
 ### With Docker
 
