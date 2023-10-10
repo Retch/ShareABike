@@ -20,6 +20,7 @@ Use the docker-compose.yml file from this repository to configure and run the so
 
 - Linux server
 - Docker and Docker Compose
+- AMD64 or ARM64 CPU
 
 Depending on the amount of users and locks interacting with the system, you should have enough ram and cpu power available.
 The following screenshot shows a test system with one lock and one admin user connected:
