@@ -1,5 +1,8 @@
 # ShareABike main repository
 
+[Documentation Admin UI](https://github.com/Retch/shareabike-admin)
+[Documentation Omni Adapter](https://github.com/Retch/shareabike-omni-lock-adapter)
+
 - [Service schema](#service-schema)
 - [Setup](#setup)
 - [Add admin user](#add-admin-user)
@@ -12,6 +15,16 @@ Use the docker-compose.yml file from this repository to configure and run the so
 ![service schema](documentation/assets/schema/schema.jpg)
 
 ## Setup
+
+### System requirements
+
+- Linux server
+- Docker and Docker Compose
+
+Depending on the amount of users and locks interacting with the system, you should have enough ram and cpu power available.
+The following screenshot shows a test system with one lock and one admin user connected:
+
+<img src="documentation/assets/screenshots/system_usage.webp" alt="System memory usage" width="260"/>
 
 ### With Docker
 
