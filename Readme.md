@@ -1,6 +1,6 @@
 # ShareABike main repository
 
-[Documentation Admin UI](https://github.com/Retch/shareabike-admin)
+[Documentation Admin UI](https://github.com/Retch/shareabike-admin)<br />
 [Documentation Omni Adapter](https://github.com/Retch/shareabike-omni-lock-adapter)
 
 - [Service schema](#service-schema)
