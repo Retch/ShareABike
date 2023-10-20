@@ -106,7 +106,6 @@ class ApiAdminController extends AbstractController
     #[Route('/api/admin/lock/{id}', name: 'app_api_admin_delete_lock', methods: ['DELETE'])]
     public function deleteLock(EntityManagerInterface $entityManager, int $id): Response
     {
-
         $lock = $entityManager->getRepository(Lock::class)->find($id);
 
         if ($lock == null)
@@ -166,6 +165,22 @@ class ApiAdminController extends AbstractController
         $entityManager->flush();
 
         return new Response("updated locktype", 200);
+    }
+
+    #[Route('/api/admin/locktype/{id}', name: 'app_api_admin_delete_locktype', methods: ['DELETE'])]
+    public function deleteLockType(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $lockType = $entityManager->getRepository(LockType::class)->find($id);
+
+        if ($lockType == null)
+        {
+            return new Response("Lock type with id " . $id . " does not exist", 409);
+        }
+
+        $entityManager->remove($lockType);
+        $entityManager->flush();
+
+        return new Response("deleted lock type", 200);
     }
 
     /**
