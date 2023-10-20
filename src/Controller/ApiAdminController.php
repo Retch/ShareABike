@@ -143,6 +143,31 @@ class ApiAdminController extends AbstractController
         return new Response("added locktype", 200);
     }
 
+    #[Route('/api/admin/locktype', name: 'app_api_admin_update_locktype', methods: ['PUT'])]
+    public function updateLockType(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $json = json_decode($request->getContent(), true);
+        $lockType = $entityManager->getRepository(LockType::class)->find($json['id']);
+
+        if ($lockType->getDescription() != $json['description']) {
+            if ($entityManager->getRepository(LockType::class)->findOneBy(['description' => $json['description']]) != null)
+            {
+                return new Response("LockType with description " . $json['description'] . " already exists", 409);
+            }
+        }
+
+        $lockType->setDescription($json['description']);
+        $lockType->setBatteryVoltageMin($json['batteryVoltageMin']);
+        $lockType->setBatteryVoltageMax($json['batteryVoltageMax']);
+        $lockType->setCellularSignalQualityMin($json['cellularSignalQualityMin']);
+        $lockType->setCellularSignalQualityMax($json['cellularSignalQualityMax']);
+
+        $entityManager->persist($lockType);
+        $entityManager->flush();
+
+        return new Response("updated locktype", 200);
+    }
+
     /**
      * @throws ErrorException
      */
