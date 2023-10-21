@@ -92,11 +92,11 @@ shareabike-pgadmin:80
 
 The _docker-compose.yml_ file already contains a pgadmin service definition. Pgadmin can be used to manage the database through the web browser.
 
-<img src="documentation/assets/screenshots/pgadmin_add_server.webp" alt="Add server in pgadmin" width="360"/>
+<img src="documentation/assets/screenshots/pgadmin_add_server.webp" alt="Add server in pgadmin" width="480"/>
 
 The db needs to be added once, change user and password to your choice.
 
-<img src="documentation/assets/screenshots/pgadmin_view_user.webp" alt="View table data in pgadmin" width="320"/>
+<img src="documentation/assets/screenshots/pgadmin_view_user.webp" alt="View table data in pgadmin" width="360"/>
 
 After adding the server, the data can be edited like this.
 Insert an entry to table _user_ with roles column like following and a hash ([bcrypt.online](https://bcrypt.online/)).
