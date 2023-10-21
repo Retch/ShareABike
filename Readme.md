@@ -354,6 +354,47 @@ Status codes:
 - 200: Lock type added successfully
 - 409: Lock type with description already exists
 
+#### Update Lock Type
+
+##### Request
+
+```bash
+curl --location --request PUT 'http://[BACKEND_HOST]/api/admin/locktype' \
+--header 'Authorization: Bearer [JWT]' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id": [LOCKID],
+    "description": "omni update",
+    "batteryVoltageMin": 3.4,
+    "batteryVoltageMax": 4.2,
+    "cellularSignalQualityMin": 2,
+    "cellularSignalQualityMax": 32
+}'
+```
+
+##### Response
+
+Status codes:
+
+- 200: Lock type updated successfully
+- 409: Lock type with description already exists
+
+#### Delete Lock Type
+
+##### Request
+
+```bash
+curl --location --request DELETE 'http://[BACKEND_HOST]/api/admin/locktype/[LOCKID]' \
+--header 'Authorization: Bearer [JWT]'
+```
+
+##### Response
+
+Status codes:
+
+- 200: Lock type deleted successfully
+- 409: Lock type with given id does not exist
+
 #### Unlock lock
 
 ##### Request
