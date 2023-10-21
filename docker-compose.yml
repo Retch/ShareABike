@@ -50,6 +50,17 @@ services:
       retries: 5
     volumes:
       - shareabike_db_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: shareabike-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=database-admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    volumes:
+      - shareabike_pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      db:
+        condition: service_healthy
   omni-adapter:
     image: ghcr.io/retch/shareabike-omni-lock-adapter:latest
     restart: unless-stopped
@@ -69,3 +80,4 @@ services:
 
 volumes:
   shareabike_db_data:
+  shareabike_pgadmin_data:
