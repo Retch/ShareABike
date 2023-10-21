@@ -70,6 +70,21 @@ docker compose pull
 
 #### Add admin user
 
+##### Via pgadmin
+
+The _docker-compose.yml_ file already contains a pgadmin service definition. Pgadmin can be used to manage the database through the web browser.
+
+<img src="documentation/assets/screenshots/pgadmin_add_server.webp" alt="Add server in pgadmin" width="360"/>
+
+The db needs to be added once, change user and password to your choice.
+
+<img src="documentation/assets/screenshots/pgadmin_view_user.webp" alt="View table data in pgadmin" width="320"/>
+
+After adding the server, the data can be edited like this.
+Insert an entry to table _user_ with roles column like following and a hash ([bcrypt.online](https://bcrypt.online/)).
+
+##### Via database tool
+
 You need to access the database to create an administrator account.
 To access the db, use the _down_ command and add a port forwarding like this to the db part in the _docker-compose.yml_ file:
 
