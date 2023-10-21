@@ -68,6 +68,24 @@ docker compose logs -f
 docker compose pull
 ```
 
+#### Public access
+
+##### With reverse proxy (tested with caddy)
+
+Put container and ports behind their own subdomains.
+
+###### Admin UI
+
+shareabike-admin:80
+
+###### API
+
+shareabike-backend-nginx:80
+
+###### pgAdmin
+
+shareabike-pgadmin:80
+
 #### Add admin user
 
 ##### Via pgadmin
