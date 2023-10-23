@@ -29,7 +29,7 @@ The following screenshot shows a test system with one lock and one admin user co
 
 ### With Docker
 
-To run the software stack with docker, the only file needed is [docker-compose.yml](docker-compose.yml).
+To run the software stack with docker, the only files needed are [docker-compose.yml](docker-compose.yml) and [nginx.conf](nginx.conf).
 Configure the values to your needs.
 The setup should work out of the box, but here is a list of values that are important to be changed.
 
