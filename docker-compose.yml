@@ -58,6 +58,8 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=password
     volumes:
       - shareabike_pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
     depends_on:
       db:
         condition: service_healthy
@@ -77,6 +79,8 @@ services:
     container_name: shareabike-admin
     environment:
       API_URL: http://localhost:8000
+    ports:
+      - "4200:80"
 
 volumes:
   shareabike_db_data:
