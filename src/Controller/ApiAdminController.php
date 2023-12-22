@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Bike;
 use App\Entity\Lock;
 use App\Entity\LockType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -331,5 +332,63 @@ class ApiAdminController extends AbstractController
             }
         }
         return new Response($content, $statusCode);
+    }
+
+    #[Route('/api/admin/bike', name: 'app_api_admin_add_bike', methods: ['POST'])]
+    public function addBike(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $json = json_decode($request->getContent(), true);
+
+        $lock = $entityManager->getRepository(Lock::class)->find($json['lockId']);
+
+        if($lock == null)
+        {
+            return new Response("Lock with id " . $json['lockId'] . " does not exist", 409);
+        }
+
+        $bike = new Bike();
+        $bike->setIsAvailable(true);
+        $bike->setLock($lock);
+
+        $entityManager->persist($bike);
+        $entityManager->flush();
+
+        return new Response("added bike", 200);
+    }
+
+    #[Route('/api/admin/bikes', name: 'app_api_admin_get_bikes', methods: ['GET'])]
+    public function getAllBikes(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $bikeEntries = $entityManager->getRepository(Bike::class)->findAll();
+
+        $bikes = [];
+
+        foreach($bikeEntries as $bike) {
+            $bikes[] = [
+                'id' => $bike->getId(),
+                'lockId' => $bike->getLock()->getId(),
+                'isAvailable' => $bike->isAvailable(),
+            ];
+        }
+
+        return $this->json([
+            'bikes' => $bikes,
+        ]);
+    }
+
+    #[Route('/api/admin/bike/{id}', name: 'app_api_admin_delete_bike', methods: ['DELETE'])]
+    public function deleteBike(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $bike = $entityManager->getRepository(Bike::class)->find($id);
+
+        if ($bike == null)
+        {
+            return new Response("Bike with id " . $id . " does not exist", 409);
+        }
+
+        $entityManager->remove($bike);
+        $entityManager->flush();
+
+        return new Response("deleted bike", 200);
     }
 }
