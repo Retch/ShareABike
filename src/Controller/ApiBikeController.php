@@ -31,7 +31,7 @@ class ApiBikeController extends AbstractController
                     'latitudeDegrees' => $bike->getLock()->getLatitudeDegrees(),
                     'longitudeHemisphere' => $bike->getLock()->getLongitudeHemisphere(),
                     'longitudeDegrees' => $bike->getLock()->getLongitudeDegrees(),
-                    'lastContactTime' => $bike->getLock()->getLastContact(),
+                    'lastContactUtcTimestamp' => $bike->getLock()->getLastContact() == null ? null : $bike->getLock()->getLastContact()->getTimestamp(),
                 ];
             }
         }
