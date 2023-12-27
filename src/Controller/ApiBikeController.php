@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Bike;
 use App\Entity\Trip;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,11 +42,13 @@ class ApiBikeController extends AbstractController
     }
 
     #[Route('/api/bike/{id}/rent', name: 'app_api_rent_bike', methods: ['POST'])]
-    public function rentBike(EntityManagerInterface $entityManager, Request $request, int $id): JsonResponse
+    public function rentBike(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger, int $id): JsonResponse
     {
         $json = json_decode($request->getContent(), true);
+        $httpClient = HttpClient::create();
 
         $bike = $entityManager->getRepository(Bike::class)->find($id);
+        $lock = $bike->getLock();
         $user = $this->getUser();
 
         $trip = new Trip();
@@ -55,6 +59,20 @@ class ApiBikeController extends AbstractController
                 $trip->setBike($bike);
                 $trip->setCustomer($user);
                 $trip->setTimeStart(new \DateTimeImmutable());
+
+                if (str_contains(strtolower($lock->getLockType()->getDescription()), "omni"))
+                {
+                    $requestUrl = $_ENV['OMNI_ADAPTER_URL'] . '/' . $lock->getDeviceId() . '/unlock';
+
+                    try {
+                        $httpClient->request('GET', $requestUrl);
+                    }
+                    catch (\Throwable $e)
+                    {
+                        $logger->error('Error at adapter: ' . $e->getMessage());
+                    }
+                }
+
                 $entityManager->persist($trip);
                 $entityManager->persist($bike);
                 $entityManager->flush();
