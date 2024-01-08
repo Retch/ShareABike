@@ -49,6 +49,13 @@ class ApiBikeController extends AbstractController
         $httpClient = HttpClient::create();
 
         $bike = $entityManager->getRepository(Bike::class)->find($id);
+
+        if ($bike != null) {
+            return $this->json([
+                'message' => 'Bike not found',
+            ], 404);
+        }
+
         $lock = $bike->getLock();
         $user = $this->getUser();
 
@@ -100,6 +107,13 @@ class ApiBikeController extends AbstractController
     public function returnBike(EntityManagerInterface $entityManager, int $id): JsonResponse
     {
         $bike = $entityManager->getRepository(Bike::class)->find($id);
+
+        if ($bike != null) {
+            return $this->json([
+                'message' => 'Bike not found',
+            ], 404);
+        }
+
         $user = $this->getUser();
         $trip = $entityManager->getRepository(Trip::class)->findOneBy(['bike' => $bike, 'customer' => $user, 'time_end' => null]);
 
