@@ -31,4 +31,37 @@ class ApiTripController extends AbstractController
             'trips' => $trips,
         ]);
     }
+
+    #[Route('/api/user/trip/current/info', name: 'app_api_get_user_trip_current_info', methods: ['GET'])]
+    public function getUserTripCurrentInfo(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $user = $this->getUser();
+        $userTripEntries = $entityManager->getRepository(Trip::class)->findBy(['customer' => $user]);
+
+        $currentTrip = null;
+
+        foreach($userTripEntries as $trip) {
+            if ($trip->getTimeEnd() == null) {
+                $currentTrip = $trip;
+                break;
+            }
+        }
+
+        if ($currentTrip == null) {
+            return $this->json([
+                'currentTrip' => null,
+            ]);
+        }
+
+        $trip = [
+            'id' => $currentTrip->getId(),
+            'bikeId' => $currentTrip->getBike() == null ? null : $currentTrip->getBike()->getId(),
+            'startTimestamp' => $currentTrip->getTimeStart() == null ? null : $currentTrip->getTimeStart()->getTimestamp(),
+            'durationSeconds' => $currentTrip->getTimeStart() == null ? null : time() - $currentTrip->getTimeStart()->getTimestamp(),
+        ];
+
+        return $this->json([
+            'currentTrip' => $trip,
+        ]);
+    }
 }
