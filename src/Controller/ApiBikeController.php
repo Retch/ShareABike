@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Lock;
 use App\Entity\Bike;
 use App\Entity\Trip;
 use Doctrine\ORM\EntityManagerInterface;
@@ -118,6 +119,35 @@ class ApiBikeController extends AbstractController
             'tripId' => $trip->getId(),
             'startedAt' => $trip->getTimeStart()->getTimestamp(),
             'endedAt' => $trip->getTimeEnd()->getTimestamp(),
+        ]);
+    }
+
+    #[Route('/api/bike/find/available/{qrContent}', name: 'app_api_find_available_bike_by_lock_qr_content', methods: ['GET'])]
+    public function findAvailableBikeByLockQrContent(EntityManagerInterface $entityManager, string $qrContent): JsonResponse
+    {
+        $bike = $entityManager->getRepository(Bike::class)->findOneBy(['lock' => $entityManager->getRepository(Lock::class)->findOneBy(['qr_code_content' => $qrContent])]);
+
+        if (!$bike) {
+            return $this->json([
+                'message' => 'Bike not found',
+            ], 404);
+        }
+
+        if (!$bike->isAvailable()) {
+            return $this->json([
+                'message' => 'Bike is not available',
+            ], 409);
+        }
+
+        return $this->json([
+            'id' => $bike->getId(),
+            'lockId' => $bike->getLock()->getId(),
+            'isAvailable' => $bike->isAvailable(),
+            'latitudeHemisphere' => $bike->getLock()->getLatitudeHemisphere(),
+            'latitudeDegrees' => $bike->getLock()->getLatitudeDegrees(),
+            'longitudeHemisphere' => $bike->getLock()->getLongitudeHemisphere(),
+            'longitudeDegrees' => $bike->getLock()->getLongitudeDegrees(),
+            'lastContactUtcTimestamp' => $bike->getLock()->getLastContact() == null ? null : $bike->getLock()->getLastContact()->getTimestamp(),
         ]);
     }
 }
