@@ -50,7 +50,7 @@ class ApiBikeController extends AbstractController
 
         $bike = $entityManager->getRepository(Bike::class)->find($id);
 
-        if ($bike != null) {
+        if ($bike == null) {
             return $this->json([
                 'message' => 'Bike not found',
             ], 404);
@@ -108,7 +108,7 @@ class ApiBikeController extends AbstractController
     {
         $bike = $entityManager->getRepository(Bike::class)->find($id);
 
-        if ($bike != null) {
+        if ($bike == null) {
             return $this->json([
                 'message' => 'Bike not found',
             ], 404);
