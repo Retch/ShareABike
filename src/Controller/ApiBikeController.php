@@ -34,6 +34,7 @@ class ApiBikeController extends AbstractController
                     'longitudeDegrees' => $bike->getLock()->getLongitudeDegrees(),
                     'lastContactUtcTimestamp' => $bike->getLock()->getLastContact() == null ? null : $bike->getLock()->getLastContact()->getTimestamp(),
                     'isBtVerificationRequired' => $bike->getLock()->getLockType()->isBtMacVerificationRequiredForUnlock(),
+                    'btMac' => $bike->getLock()->getBluetoothMac() == null ? null : $bike->getLock()->getBluetoothMac(),
                 ];
             }
         }
@@ -169,6 +170,7 @@ class ApiBikeController extends AbstractController
             'longitudeDegrees' => $bike->getLock()->getLongitudeDegrees(),
             'lastContactUtcTimestamp' => $bike->getLock()->getLastContact() == null ? null : $bike->getLock()->getLastContact()->getTimestamp(),
             'isBtVerificationRequired' => $bike->getLock()->getLockType()->isBtMacVerificationRequiredForUnlock(),
+            'btMac' => $bike->getLock()->getBluetoothMac() == null ? null : $bike->getLock()->getBluetoothMac(),
         ]);
     }
 }
