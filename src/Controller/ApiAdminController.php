@@ -69,6 +69,7 @@ class ApiAdminController extends AbstractController
                 'batteryVoltageMax' => $lockType->getBatteryVoltageMax(),
                 'cellularSignalQualityMin' => $lockType->getCellularSignalQualityMin(),
                 'cellularSignalQualityMax' => $lockType->getCellularSignalQualityMax(),
+                'isBtVerificationRequired' => $lockType->isBtMacVerificationRequiredForUnlock(),
             ];
         }
 
@@ -136,6 +137,12 @@ class ApiAdminController extends AbstractController
         $lockType->setBatteryVoltageMax($json['batteryVoltageMax']);
         $lockType->setCellularSignalQualityMin($json['cellularSignalQualityMin']);
         $lockType->setCellularSignalQualityMax($json['cellularSignalQualityMax']);
+        if (isset($json['isBtVerificationRequired'])) {
+            $lockType->setIsBtMacVerificationRequiredForUnlock($json['isBtVerificationRequired']);
+        }
+        else {
+            $lockType->setIsBtMacVerificationRequiredForUnlock(false);
+        }
 
         $entityManager->persist($lockType);
         $entityManager->flush();
@@ -149,6 +156,11 @@ class ApiAdminController extends AbstractController
         $json = json_decode($request->getContent(), true);
         $lockType = $entityManager->getRepository(LockType::class)->find($json['id']);
 
+        if ($lockType == null)
+        {
+            return new Response("Lock type with id " . $json['id'] . " does not exist", 409);
+        }
+
         if ($lockType->getDescription() != $json['description']) {
             if ($entityManager->getRepository(LockType::class)->findOneBy(['description' => $json['description']]) != null)
             {
@@ -161,6 +173,12 @@ class ApiAdminController extends AbstractController
         $lockType->setBatteryVoltageMax($json['batteryVoltageMax']);
         $lockType->setCellularSignalQualityMin($json['cellularSignalQualityMin']);
         $lockType->setCellularSignalQualityMax($json['cellularSignalQualityMax']);
+        if (isset($json['isBtVerificationRequired'])) {
+            $lockType->setIsBtMacVerificationRequiredForUnlock($json['isBtVerificationRequired']);
+        }
+        else {
+            $lockType->setIsBtMacVerificationRequiredForUnlock(false);
+        }
 
         $entityManager->persist($lockType);
         $entityManager->flush();
