@@ -64,6 +64,11 @@ class ApiBikeController extends AbstractController
 
         if ($bike->isAvailable()) {
             if ($bike->getLock()->getQrCodeContent() == null || $bike->getLock()->getQrCodeContent() == $json['qrCodeContent']) {
+                if ($bike->getLock()->getLockType()->isBtMacVerificationRequiredForUnlock() && $json['btMac'] != $bike->getLock()->getBluetoothMac()) {
+                    return $this->json([
+                        'message' => 'BT MAC does not match',
+                    ], 400);
+                }
                 $bike->setIsAvailable(false);
                 $trip->setBike($bike);
                 $trip->setCustomer($user);
