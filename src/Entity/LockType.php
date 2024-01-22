@@ -34,6 +34,9 @@ class LockType
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $cellular_signal_quality_max = null;
 
+    #[ORM\Column]
+    private ?bool $is_bt_mac_verification_required_for_unlock = null;
+
     public function __construct()
     {
         $this->locks = new ArrayCollection();
@@ -130,6 +133,18 @@ class LockType
     public function setCellularSignalQualityMax(?int $cellular_signal_quality_max): static
     {
         $this->cellular_signal_quality_max = $cellular_signal_quality_max;
+
+        return $this;
+    }
+
+    public function isBtMacVerificationRequiredForUnlock(): ?bool
+    {
+        return $this->is_bt_mac_verification_required_for_unlock;
+    }
+
+    public function setIsBtMacVerificationRequiredForUnlock(bool $is_bt_mac_verification_required_for_unlock): static
+    {
+        $this->is_bt_mac_verification_required_for_unlock = $is_bt_mac_verification_required_for_unlock;
 
         return $this;
     }
