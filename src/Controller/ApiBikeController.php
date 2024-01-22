@@ -33,6 +33,7 @@ class ApiBikeController extends AbstractController
                     'longitudeHemisphere' => $bike->getLock()->getLongitudeHemisphere(),
                     'longitudeDegrees' => $bike->getLock()->getLongitudeDegrees(),
                     'lastContactUtcTimestamp' => $bike->getLock()->getLastContact() == null ? null : $bike->getLock()->getLastContact()->getTimestamp(),
+                    'isBtVerificationRequired' => $bike->getLock()->getLockType()->isBtMacVerificationRequiredForUnlock(),
                 ];
             }
         }
@@ -162,6 +163,7 @@ class ApiBikeController extends AbstractController
             'longitudeHemisphere' => $bike->getLock()->getLongitudeHemisphere(),
             'longitudeDegrees' => $bike->getLock()->getLongitudeDegrees(),
             'lastContactUtcTimestamp' => $bike->getLock()->getLastContact() == null ? null : $bike->getLock()->getLastContact()->getTimestamp(),
+            'isBtVerificationRequired' => $bike->getLock()->getLockType()->isBtMacVerificationRequiredForUnlock(),
         ]);
     }
 }
