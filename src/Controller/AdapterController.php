@@ -15,7 +15,7 @@ use App\Entity\Trip;
 class AdapterController extends AbstractController
 {
     #[Route('/adapter/{device_id}/updatestatus', name: 'app_adapter_update_status', methods: ['POST'])]
-    public function updateStatus(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request, string $device_id): Response
+    public function updateLocation(EntityManagerInterface $entityManager, LoggerInterface $logger, Request $request, string $device_id): Response
     {
         $lock = $entityManager->getRepository(Lock::class)->findOneBy(['device_id' => $device_id]);
         if (!$lock) {
