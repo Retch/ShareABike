@@ -43,7 +43,7 @@ class AdapterController extends AbstractController
         }
 
         if (isset($json['isLocked'])) {
-            $oldIsLockedState = $lock->getIsLocked();
+            /*$oldIsLockedState = $lock->getIsLocked();
             $newIsLockedState = $json['isLocked'];
             if (!$oldIsLockedState && $newIsLockedState) {
                 $bike = $lock->getBike();
@@ -56,9 +56,9 @@ class AdapterController extends AbstractController
                     }
                     $entityManager->persist($bike);
                 }
-            }
+            }*/
 
-            $lock->setIsLocked($newIsLockedState);
+            $lock->setIsLocked($json['isLocked']);
         }
 
         if (isset($json['csq'])) {
