@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Lock;
+use App\Entity\Trip;
 
 
 class AdapterController extends AbstractController
@@ -42,7 +43,22 @@ class AdapterController extends AbstractController
         }
 
         if (isset($json['isLocked'])) {
-            $lock->setIsLocked($json['isLocked']);
+            $oldIsLockedState = $lock->getIsLocked();
+            $newIsLockedState = $json['isLocked'];
+            if (!$oldIsLockedState && $newIsLockedState) {
+                $bike = $lock->getBike();
+                if ($bike != null) {
+                    $bike->setIsAvailable(true);
+                    $trip = $entityManager->getRepository(Trip::class)->findOneBy(['bike' => $bike, 'time_end' => null]);
+                    if ($trip != null) {
+                        $trip->setTimeEnd(new \DateTimeImmutable());
+                        $entityManager->persist($trip);
+                    }
+                    $entityManager->persist($bike);
+                }
+            }
+
+            $lock->setIsLocked($newIsLockedState);
         }
 
         if (isset($json['csq'])) {
