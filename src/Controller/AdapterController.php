@@ -43,7 +43,7 @@ class AdapterController extends AbstractController
         }
 
         if (isset($json['isLocked'])) {
-            $oldIsLockedState = $lock->getIsLocked();
+            $oldIsLockedState = $lock->isLocked();
             $newIsLockedState = $json['isLocked'];
 
             $logger->info('Lock locked status was ' . $oldIsLockedState . ' and is now ' . $newIsLockedState);
@@ -61,7 +61,7 @@ class AdapterController extends AbstractController
                 }
             }*/
 
-            $lock->setIsLocked($json['isLocked']);
+            $lock->setIsLocked($newIsLockedState);
         }
 
         if (isset($json['csq'])) {
