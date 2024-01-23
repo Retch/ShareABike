@@ -48,7 +48,7 @@ class AdapterController extends AbstractController
 
             $logger->info('Lock locked status was ' . $oldIsLockedState . ' and is now ' . $newIsLockedState);
 
-            /*if (!$oldIsLockedState && $newIsLockedState) {
+            if (!$oldIsLockedState && $newIsLockedState) {
                 $bike = $lock->getBike();
                 if ($bike != null) {
                     $bike->setIsAvailable(true);
@@ -56,10 +56,11 @@ class AdapterController extends AbstractController
                     if ($trip != null) {
                         $trip->setTimeEnd(new \DateTimeImmutable());
                         $entityManager->persist($trip);
+                        $logger->info('Trip ended for bike because lock was locked with id ' . $bike->getId());
                     }
                     $entityManager->persist($bike);
                 }
-            }*/
+            }
 
             $lock->setIsLocked($newIsLockedState);
         }
