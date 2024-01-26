@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiTripController extends AbstractController
 {
     #[Route('/api/user/trips', name: 'app_api_get_user_trips', methods: ['GET'])]
-    public function getUserTripsBikes(EntityManagerInterface $entityManager): JsonResponse
+    public function getUserTrips(EntityManagerInterface $entityManager): JsonResponse
     {
         $user = $this->getUser();
         $userTripEntries = $entityManager->getRepository(Trip::class)->findBy(['customer' => $user]);
