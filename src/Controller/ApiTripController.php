@@ -19,11 +19,19 @@ class ApiTripController extends AbstractController
         $trips = [];
 
         foreach($userTripEntries as $trip) {
+            $endTimestamp = $trip->getTimeEnd() == null ? null : $trip->getTimeEnd()->getTimestamp();
+
+            if ($endTimestamp === null) {
+                continue;
+            }
+
+            $startTimestamp = $trip->getTimeStart() == null ? null : $trip->getTimeStart()->getTimestamp();
+
             $trips[] = [
                 'id' => $trip->getId(),
-                'startTimestamp' => $trip->getTimeStart() == null ? null : $trip->getTimeStart()->getTimestamp(),
-                'endTimestamp' => $trip->getTimeEnd() == null ? null : $trip->getTimeEnd()->getTimestamp(),
-                'durationSeconds' => $trip->getTimeStart() == null || $trip->getTimeEnd() == null ? null : $trip->getTimeEnd()->getTimestamp() - $trip->getTimeStart()->getTimestamp(),
+                'startTimestamp' => $startTimestamp,
+                'endTimestamp' => $endTimestamp,
+                'durationSeconds' => $startTimestamp === null ? null : $endTimestamp - $startTimestamp,
             ];
         }
 
