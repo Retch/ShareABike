@@ -29,6 +29,7 @@ services:
         condition: service_healthy
   nginx:
     image: nginx:1.25.2-alpine3.18
+    restart: unless-stopped
     container_name: shareabike-backend-nginx
     ports:
       - "8000:80"
@@ -52,6 +53,7 @@ services:
       - shareabike_db_data:/var/lib/postgresql/data
   pgadmin:
     image: dpage/pgadmin4:latest
+    restart: unless-stopped
     container_name: shareabike-pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=database-admin@example.com
@@ -76,6 +78,7 @@ services:
       - nginx
   admin-ui:
     image: ghcr.io/retch/shareabike-admin:latest
+    restart: unless-stopped
     container_name: shareabike-admin
     environment:
       API_URL: http://localhost:8000
