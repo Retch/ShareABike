@@ -3,11 +3,18 @@
 [Documentation Admin UI](https://github.com/Retch/shareabike-admin)<br />
 [Documentation Omni Adapter](https://github.com/Retch/shareabike-omni-lock-adapter)
 
+- [Introduction](#introduction)
 - [Service schema](#service-schema)
 - [Setup](#setup)
 - [Add admin user](#add-admin-user)
 - [Configure omni lock](#configure-omni-lock)
 - [Api documentation](#api-documentation)
+
+## Introduction
+
+### System in action
+
+[![lock-app-video](https://i.postimg.cc/Pqc277Hv/lock-animation.gif)](https://postimg.cc/WDGGFXhs)
 
 ## Service schema
 
