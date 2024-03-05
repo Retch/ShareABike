@@ -14,7 +14,7 @@
 
 ### System in action
 
-[![lock-app-video](https://i.postimg.cc/Pqc277Hv/lock-animation.gif)](https://postimg.cc/WDGGFXhs)
+https://github.com/Retch/shareabike/assets/16291785/d791e10b-2c67-4bce-affd-6ea5e63d93e9
 
 ## Service schema
 
